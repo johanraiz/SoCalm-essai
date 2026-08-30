@@ -14,7 +14,7 @@ const categories = [
     id: "je-mancre",
     name: "Je m'ancre",
     tools: [
-      { id: "mantra", name: "Le mantra" },
+      { id: "mantra", name: "Le mantra", live: true, route: "#/outil/mantra" },
       { id: "ancrage-5432", name: "Je m'ancre, je suis là" },
       { id: "marche", name: "Je marche, je me libère" },
       { id: "odeur-rassurante", name: "J'inspire cette odeur, je reviens à moi" },
