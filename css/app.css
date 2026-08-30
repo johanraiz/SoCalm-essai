@@ -583,6 +583,9 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 .anecdote p:last-child { margin-bottom: 0; }
 .body-copy blockquote.marche-phrase { font-family: Georgia, serif; font-style: italic; color: var(--sage-dark); border-left-color: var(--sage); }
 
+/* ---------- outil "Je sens cette odeur, je construis ma sérénité" (v1.33) — note d'usage, cf. design/ecrans-outils-je-mancre.html ---------- */
+.usage-note { font-size: 11px; font-style: italic; color: var(--sage-dark); background: var(--cream); border: 1px solid var(--card-border); border-radius: 12px; padding: 8px 12px; margin-bottom: 12px; line-height: 1.5; }
+
 .ancrage-closing {
   font-family: Georgia, serif;
   font-style: italic;

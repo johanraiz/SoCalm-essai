@@ -8,6 +8,8 @@ function pickToolScreen(slug) {
   if (slug === "mantra") return OutilMantraScreen;
   if (slug === "ancrage-5432") return OutilAncrageScreen;
   if (slug === "marche") return OutilMarcheScreen;
+  if (slug === "odeur-rassurante") return OutilOdeurScreen;
+  if (slug === "odeur-association") return OutilOdeurAssociationScreen;
   return OutilRespirationScreen;
 }
 
