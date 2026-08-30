@@ -7,6 +7,7 @@ let activeToolScreen = null;
 function pickToolScreen(slug) {
   if (slug === "mantra") return OutilMantraScreen;
   if (slug === "ancrage-5432") return OutilAncrageScreen;
+  if (slug === "marche") return OutilMarcheScreen;
   return OutilRespirationScreen;
 }
 
