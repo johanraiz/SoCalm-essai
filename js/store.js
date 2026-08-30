@@ -49,7 +49,11 @@ const store = {
   setPointDepart(v) { write("pointDepart", v); },
 
   getHomeView() { return read("homeView", "grille"); },
-  setHomeView(v) { write("homeView", v); }
+  setHomeView(v) { write("homeView", v); },
+
+  // Ancrage 5-4-3-2 (v0.45) : le critère de l'étape "vue" alterne à chaque usage (couleur / forme, point 2).
+  getAncrageDernierCritere() { return read("ancrage.dernierCritere", null); },
+  setAncrageDernierCritere(v) { write("ancrage.dernierCritere", v); }
 };
 
 function formatDate(iso) {

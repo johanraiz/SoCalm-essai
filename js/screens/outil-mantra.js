@@ -22,7 +22,7 @@ function startMantraAnim(root) {
   mantraRaf = requestAnimationFrame(update);
 }
 
-function renderMain(root, slug) {
+function renderMantraMain(root, slug) {
   const favN = store.getFavoris(slug);
   const stars = [1, 2, 3, 4, 5].map(n =>
     `<button class="${n <= favN ? "on" : ""}" data-star="${n}">★</button>`
@@ -53,7 +53,7 @@ function renderMain(root, slug) {
       const n = parseInt(b.getAttribute("data-star"), 10);
       const current = store.getFavoris(slug);
       store.setFavoris(slug, current === n ? 0 : n);
-      renderMain(root, slug);
+      renderMantraMain(root, slug);
     });
   });
   root.querySelector("[data-maversion]").addEventListener("click", () => navigate(`#/outil/${slug}/maversion`));
@@ -61,7 +61,7 @@ function renderMain(root, slug) {
   startMantraAnim(root);
 }
 
-function renderMaVersion(root, slug) {
+function renderMantraMaVersion(root, slug) {
   const existing = store.getMaVersion(slug);
   root.innerHTML = `
     <div class="screen">
@@ -84,10 +84,10 @@ function render(root, params) {
   stopMantraAnim();
   const slug = params.slug;
   if (params.step === "maversion") {
-    renderMaVersion(root, slug);
+    renderMantraMaVersion(root, slug);
     return;
   }
-  renderMain(root, slug);
+  renderMantraMain(root, slug);
 }
 
 function cleanup() {
