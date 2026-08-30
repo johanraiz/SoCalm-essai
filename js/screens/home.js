@@ -45,7 +45,7 @@ function render(root) {
       ${categories.map(cat => {
         const recommended = pointDepart && cat.id === pointDepart;
         return `
-          <button class="grid-tile ${recommended ? "recommended" : ""}" data-route="#/categorie/${cat.id}">
+          <button class="grid-tile grid-tile-${cat.id} ${recommended ? "recommended" : ""}" data-route="#/categorie/${cat.id}">
             ${recommended ? `<span class="cat-badge-pour-toi tile-badge">Pour toi</span>` : ""}
             <img class="grid-tile-icon" src="${tileIcons[cat.id] || ""}" alt="">
             <span class="grid-tile-name">${escapeHtml(cat.name)}</span>
@@ -65,9 +65,6 @@ function render(root) {
           <span class="cbtn-ring cbtn-ring-2"></span>
           <span class="cbtn"><span class="cbtn-txt">Moment difficile</span></span>
         </button>
-        <div class="tap-label">Un seul bouton, <b>toujours au même endroit</b>, pour les moments où choisir devient trop difficile.</div>
-        <div class="feed-note">Alimenté par tes outils les mieux notés — jamais par un choix à faire dans l'instant.</div>
-        <div class="proposal-flag">emplacement et taille du bouton — proposition à confirmer</div>
       </div>
       <button class="journal-pill" data-route="#/journal">
         <span class="journal-badge">${journalSvg}</span>

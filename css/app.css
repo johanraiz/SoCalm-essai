@@ -252,9 +252,9 @@ a.link-row, .link-row {
   display: flex;
   align-items: center;
   gap: 8px;
-  background: #a9c3d4;
-  color: #1f3547;
-  border: 1px solid #3f6180;
+  background: linear-gradient(135deg, #f2c896, #dba054);
+  color: #5c3813;
+  border: 1px solid #b97d34;
   border-radius: 20px;
   padding: 5px 14px 5px 5px;
   font-size: 13px;
@@ -360,6 +360,11 @@ a.link-row, .link-row {
   min-height: 108px;
 }
 .grid-tile { background: var(--sage); }
+/* proposition à confirmer (v1.26) : fond de case différent par catégorie, icône inchangée (trait blanc / vert sauge, cf. règle v1.21) */
+.grid-tile-je-respire { background: #b9cdd8; }
+.grid-tile-je-mancre { background: #dba98c; }
+.grid-tile-comprendre { background: #ecd6a4; }
+.grid-tile-mes-ressources { background: var(--sage); }
 .grid-tile-icon {
   width: 40px;
   height: 41px;
@@ -548,6 +553,17 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 .option .ic { color: var(--sage-dark); margin-right: 6px; }
 .option .d { font-size: 11px; color: var(--muted); line-height: 1.4; }
 .option.chosen { background: var(--sage); border-color: var(--sage-dark); }
+
+/* ---------- onboarding : confort de lecture mobile (police agrandie, retour terrain Johan) ---------- */
+#onboardingScreen .body-copy { font-size: 15px; line-height: 1.65; }
+#onboardingScreen .closing { font-size: 17px; }
+#onboardingScreen .btn-primary { font-size: 15px; padding: 14px; }
+#onboardingScreen .btn-secondary { font-size: 14px; }
+#onboardingScreen .field { font-size: 15px; }
+#onboardingScreen .option .h { font-size: 15px; }
+#onboardingScreen .option .d { font-size: 12.5px; }
+#onboardingScreen .gift-card .mantra { font-size: 19.5px; }
+#onboardingScreen .breath-label { font-size: 16.5px; }
 
 /* ---------- journal specific ---------- */
 .mantra-banner { background: var(--cream); border: 1px solid var(--card-border); border-radius: 18px; padding: 16px 16px; margin-bottom: 18px; }
