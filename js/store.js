@@ -53,7 +53,33 @@ const store = {
 
   // Ancrage 5-4-3-2 (v0.45) : le critère de l'étape "vue" alterne à chaque usage (couleur / forme, point 2).
   getAncrageDernierCritere() { return read("ancrage.dernierCritere", null); },
-  setAncrageDernierCritere(v) { write("ancrage.dernierCritere", v); }
+  setAncrageDernierCritere(v) { write("ancrage.dernierCritere", v); },
+
+  // Journal — liste des déclencheurs (v0.62).
+  getDeclencheurs() {
+    const list = read("journal.declencheurs", []);
+    // Compat : anciennes entrées de test sans id (avant v1.35) — id de repli stable, dérivé de la date.
+    return list.map(e => e.id ? e : { ...e, id: e.date });
+  },
+  addDeclencheur(text) {
+    const list = this.getDeclencheurs();
+    const id = Date.now() + "-" + Math.random().toString(36).slice(2, 8);
+    list.unshift({ id, text, date: new Date().toISOString() });
+    write("journal.declencheurs", list);
+  },
+
+  // Plan d'intention (v0.76, 3 champs v0.97, un plan par situation dès v1.35) :
+  // un plan par déclencheur, indexé par son id — relisable et modifiable.
+  getPlansDeclencheurs() { return read("journal.plansParDeclencheur", {}); },
+  getPlanForDeclencheur(id) {
+    const plans = this.getPlansDeclencheurs();
+    return plans[id] || { reflexe: "", action: "" };
+  },
+  savePlanForDeclencheur(id, plan) {
+    const plans = this.getPlansDeclencheurs();
+    plans[id] = { reflexe: plan.reflexe || "", action: plan.action || "", date: new Date().toISOString() };
+    write("journal.plansParDeclencheur", plans);
+  }
 };
 
 function formatDate(iso) {

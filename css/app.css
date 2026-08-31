@@ -586,6 +586,13 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 /* ---------- outil "Je sens cette odeur, je construis ma sérénité" (v1.33) — note d'usage, cf. design/ecrans-outils-je-mancre.html ---------- */
 .usage-note { font-size: 11px; font-style: italic; color: var(--sage-dark); background: var(--cream); border: 1px solid var(--card-border); border-radius: 12px; padding: 8px 12px; margin-bottom: 12px; line-height: 1.5; }
 
+/* ---------- ressource "Je me critique, je me réponds avec tendresse" (v1.37), cf. design/ecrans-outils-mes-ressources.html ---------- */
+.field-lbl { font-size: 10.5px; font-weight: 700; color: var(--sage-dark); margin: 8px 0 4px; }
+.dialog-ex { background: var(--cream); border: 1px solid var(--card-border); border-radius: 12px; padding: 10px 12px; margin: 8px 0; font-size: 11.5px; line-height: 1.5; }
+.dialog-ex .who { font-weight: 700; color: var(--muted); }
+.dialog-ex .crit { color: var(--muted); font-style: italic; margin-bottom: 5px; }
+.dialog-ex .ans { color: #3f4f39; font-style: italic; }
+
 .ancrage-closing {
   font-family: Georgia, serif;
   font-style: italic;
@@ -630,7 +637,18 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 .plan-block { background: var(--sage); border-radius: 16px; padding: 14px; margin-top: 14px; }
 .plan-block .h { font-size: 11.5px; font-weight: 700; color: #3f4f39; margin-bottom: 8px; line-height: 1.4; }
 .plan-field { background: rgba(255,255,255,0.55); border-radius: 10px; padding: 8px 10px; font-size: 11px; color: #557052; margin-bottom: 6px; }
-.plan-field b { color: #3f4f39; }
+.plan-field b { color: #3f4f39; display: block; margin-bottom: 3px; }
+.plan-field .plan-input { display: block; width: 100%; border: none; background: none; font: inherit; font-size: 11px; color: #557052; padding: 0; }
+.plan-field .plan-input::placeholder { color: #8ba57e; }
+.plan-block .btn-primary { margin-top: 8px; padding: 10px; font-size: 12px; }
+/* v1.35 : un plan par déclencheur (bouton "Je change ma façon de réagir" sur chaque entrée). */
+.entry-row-wrap { margin-bottom: 10px; }
+.entry-row-wrap .entry-row { margin-bottom: 6px; }
+.plan-toggle-btn { display: inline-block; padding: 7px 13px; background: transparent; border: 1px solid var(--sage-dark); color: var(--sage-dark); border-radius: 999px; font-size: 11px; font-weight: 700; cursor: pointer; margin-bottom: 4px; }
+.plan-toggle-btn.has-plan { background: var(--sage); }
+.plan-toggle-btn:active { opacity: 0.8; }
+.entry-row-wrap .plan-block { margin-top: 6px; }
+.plan-field .plan-situation-fixed { display: block; font-size: 11px; color: #557052; font-style: italic; }
 .synth-block { background: var(--sage); border-radius: 16px; padding: 14px; margin: 4px 0 14px; }
 .synth-block .lbl { font-size: 9.5px; font-weight: 700; color: #3f4f39; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
 .synth-block .txt { font-size: 12px; color: #3f4f39; line-height: 1.5; }

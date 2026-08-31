@@ -72,6 +72,100 @@ function renderComplimentsConsult(root) {
   root.querySelector("[data-add]").addEventListener("click", () => navigate("#/journal/compliments"));
 }
 
+function renderDeclencheursAdd(root) {
+  root.innerHTML = `
+    <div class="screen">
+      <div class="back-row"><button class="back" data-back>‹ Journal</button></div>
+      <h3 class="title title-md">La liste des déclencheurs</h3>
+      <div class="body-copy">
+        <p>Quelque chose vient de te faire réagir — une situation, un lieu, une personne, ou peut-être une sensation, une pensée, un souvenir.</p>
+        <p>Note-le ici, dès que tu le remarques. Pas besoin de l'expliquer, juste de le nommer.</p>
+      </div>
+      <textarea class="field" id="declencheurInput" placeholder="Écris ici…"></textarea>
+      <button class="btn-primary" data-add>Ajouter</button>
+      <button class="btn-secondary" data-consult>Voir ma liste</button>
+      <div class="spacer"></div>
+    </div>
+  `;
+  root.querySelector("[data-back]").addEventListener("click", () => navigate("#/journal"));
+  root.querySelector("[data-consult]").addEventListener("click", () => navigate("#/journal/declencheurs/consulter"));
+  root.querySelector("[data-add]").addEventListener("click", () => {
+    const input = root.querySelector("#declencheurInput");
+    const text = input.value.trim();
+    if (!text) return;
+    store.addDeclencheur(text);
+    toast("Ajouté à ta liste des déclencheurs");
+    navigate("#/journal/declencheurs/consulter");
+  });
+}
+
+function renderDeclencheursConsult(root) {
+  const entries = store.getDeclencheurs();
+  const plansMap = store.getPlansDeclencheurs();
+
+  root.innerHTML = `
+    <div class="screen">
+      <div class="back-row"><button class="back" data-back>‹ Journal</button></div>
+      <h3 class="title title-md">La liste des déclencheurs</h3>
+      <div class="body-copy">
+        <p>Voici <strong>ta carte</strong>, celle que tu redessines petit à petit.</p>
+        <p>Relis-la quand tu veux mieux comprendre ce qui te touche — ce n'est pas une preuve de faiblesse, c'est une trace de ton histoire.</p>
+      </div>
+      ${entries.length === 0
+        ? `<div class="empty-state">Ta liste est vide pour l'instant.</div>`
+        : entries.map(e => {
+          const hasPlan = !!plansMap[e.id];
+          const plan = store.getPlanForDeclencheur(e.id);
+          return `
+          <div class="entry-row-wrap">
+            <div class="entry-row">
+              <div class="date">${formatDate(e.date)}</div>
+              <div class="txt">${escapeHtml(e.text)}</div>
+            </div>
+            <button class="plan-toggle-btn ${hasPlan ? "has-plan" : ""}" data-plan-toggle="${e.id}">${hasPlan ? "✓ Plan enregistré" : "Je change ma façon de réagir"}</button>
+            <div class="plan-block" data-plan-block="${e.id}" hidden>
+              <div class="h">Est-ce qu'un même genre de situation revient, dans ce que tu as noté ?<br>Si tu le repères, tu peux te préparer un petit plan, pour la prochaine fois — une idée pour faire différemment, même un tout petit changement, minuscule :</div>
+              <div class="plan-field"><b>La prochaine fois que je suis confronté à</b><div class="plan-situation-fixed">${escapeHtml(e.text)}</div></div>
+              <div class="plan-field"><b>au lieu de faire</b><input type="text" class="plan-input" data-plan-field="reflexe" value="${escapeHtml(plan.reflexe)}" placeholder="…"></div>
+              <div class="plan-field"><b>je peux faire</b><input type="text" class="plan-input" data-plan-field="action" value="${escapeHtml(plan.action)}" placeholder="…"></div>
+              <button class="btn-primary" data-save-plan="${e.id}">Enregistrer</button>
+            </div>
+          </div>
+        `;
+        }).join("")
+      }
+      <div class="spacer"></div>
+      <button class="btn-primary" data-add>Ajouter un déclencheur</button>
+    </div>
+  `;
+  root.querySelector("[data-back]").addEventListener("click", () => navigate("#/journal"));
+  root.querySelector("[data-add]").addEventListener("click", () => navigate("#/journal/declencheurs"));
+
+  root.querySelectorAll("[data-plan-toggle]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("data-plan-toggle");
+      const block = root.querySelector(`[data-plan-block="${id}"]`);
+      if (block) block.hidden = !block.hidden;
+    });
+  });
+
+  root.querySelectorAll("[data-save-plan]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const id = btn.getAttribute("data-save-plan");
+      const block = root.querySelector(`[data-plan-block="${id}"]`);
+      const newPlan = {
+        reflexe: block.querySelector("[data-plan-field='reflexe']").value,
+        action: block.querySelector("[data-plan-field='action']").value
+      };
+      store.savePlanForDeclencheur(id, newPlan);
+      toast("Enregistré");
+      renderDeclencheursConsult(root);
+      const reopened = root.querySelector(`[data-plan-block="${id}"]`);
+      if (reopened) reopened.hidden = false;
+    });
+  });
+}
+
 function render(root, params) {
   if (!params.section) {
     renderHome(root);
@@ -79,6 +173,10 @@ function render(root, params) {
     renderComplimentsConsult(root);
   } else if (params.section === "compliments") {
     renderComplimentsAdd(root);
+  } else if (params.section === "declencheurs" && params.sub === "consulter") {
+    renderDeclencheursConsult(root);
+  } else if (params.section === "declencheurs") {
+    renderDeclencheursAdd(root);
   } else {
     renderHome(root);
   }

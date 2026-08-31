@@ -10,6 +10,7 @@ function pickToolScreen(slug) {
   if (slug === "marche") return OutilMarcheScreen;
   if (slug === "odeur-rassurante") return OutilOdeurScreen;
   if (slug === "odeur-association") return OutilOdeurAssociationScreen;
+  if (slug === "protecteur-critique") return OutilProtecteurScreen;
   return OutilRespirationScreen;
 }
 

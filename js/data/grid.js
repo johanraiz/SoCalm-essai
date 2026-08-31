@@ -46,7 +46,7 @@ const categories = [
     id: "mes-ressources",
     name: "Mes ressources",
     tools: [
-      { id: "protecteur-critique", name: "Je me critique, je me réponds avec tendresse" },
+      { id: "protecteur-critique", name: "Je me critique, je me réponds avec tendresse", live: true, route: "#/outil/protecteur-critique" },
       { id: "figure-aidante", name: "Je me confie, je me sens accompagné" },
       { id: "phrase-confiance", name: "J'ai confiance, je tiens bon" },
       { id: "coussin-emotions", name: "J'accueille mes émotions, je m'équilibre" },
@@ -59,7 +59,7 @@ const categories = [
 
 const journalMenu = [
   { id: "compliments", name: "La boîte à compliments", desc: "se rappeler de quoi tu es capable", live: true, route: "#/journal/compliments", icon: journalIcon_compliments },
-  { id: "declencheurs", name: "La liste des déclencheurs", desc: "ta carte, redessinée petit à petit", icon: journalIcon_declencheurs },
+  { id: "declencheurs", name: "La liste des déclencheurs", desc: "ta carte, redessinée petit à petit", live: true, route: "#/journal/declencheurs", icon: journalIcon_declencheurs },
   { id: "fil-soirs", name: "Le fil de tes soirs", desc: "nommer, sans expliquer", icon: journalIcon_filSoirs },
   { id: "bilan", name: "Le bilan auto-écrit", desc: "relire, sans compteur ni score", icon: journalIcon_bilan },
   { id: "verif-attentes", name: "La vérification des attentes", desc: "noter une prédiction, la vérifier", icon: journalIcon_verifAttentes }
