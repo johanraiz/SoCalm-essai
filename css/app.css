@@ -593,6 +593,11 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 .dialog-ex .crit { color: var(--muted); font-style: italic; margin-bottom: 5px; }
 .dialog-ex .ans { color: #3f4f39; font-style: italic; }
 
+/* ---------- ressource "Je me confie, je me sens accompagné" (v1.38), cf. design/ecrans-outils-mes-ressources.html ---------- */
+.glow-block { background: linear-gradient(165deg, #fdf3da, var(--cream)); border-radius: 14px; padding: 13px 15px; margin: 10px 0; font-size: 12.5px; line-height: 1.6; color: #2f4a29; box-shadow: 0 0 22px 4px rgba(232,201,138,0.45), 0 0 46px 10px rgba(232,201,138,0.2); }
+.glow-block p { margin: 0 0 8px; }
+.glow-block p:last-child { margin-bottom: 0; }
+
 .ancrage-closing {
   font-family: Georgia, serif;
   font-style: italic;
