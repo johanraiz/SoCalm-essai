@@ -7,7 +7,13 @@ const categories = [
     id: "je-respire",
     name: "Je respire",
     tools: [
-      { id: "respiration-3-niveaux", name: "Je respire, je m'apaise en profondeur", live: true, route: "#/outil/respiration-3-niveaux" }
+      {
+        id: "respiration-3-niveaux", name: "Je respire, je m'apaise en profondeur", live: true, route: "#/outil/respiration-3-niveaux",
+        // Lien retour outil → psychoéducation (v1.42), symétrique du lien module → outil déjà en place
+        // (fondateur pointe déjà vers cet outil, cf. js/data/fondateur.js). Discret, en bas d'écran,
+        // jamais au milieu de l'exercice — cf. note d'usage instant présent (v0.48).
+        relatedModule: { slug: "fondateur", title: "Je me sens anxieux·se, c'est quoi exactement ?", desc: "le module qui explique le mécanisme derrière cet exercice" }
+      }
     ]
   },
   {
@@ -49,8 +55,8 @@ const categories = [
       { id: "protecteur-critique", name: "Je me critique, je me réponds avec tendresse", live: true, route: "#/outil/protecteur-critique" },
       { id: "figure-aidante", name: "Je me confie, je me sens accompagné", live: true, route: "#/outil/figure-aidante" },
       { id: "phrase-confiance", name: "J'ai confiance, je tiens bon", live: true, route: "#/outil/phrase-confiance" },
-      { id: "coussin-emotions", name: "J'accueille mes émotions, je m'équilibre" },
-      { id: "lieu-secure", name: "Je m'y réfugie, je me sens en sécurité" },
+      { id: "coussin-emotions", name: "J'accueille mes émotions, je m'équilibre", live: true, route: "#/outil/coussin-emotions" },
+      { id: "lieu-secure", name: "Je m'y réfugie, je me sens en sécurité", live: true, route: "#/outil/lieu-secure" },
       { id: "ecriture", name: "J'écris, je m'en libère" },
       { id: "je-verifie", name: "Je vérifie, je reprends la main" }
     ]

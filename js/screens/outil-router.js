@@ -13,6 +13,8 @@ function pickToolScreen(slug) {
   if (slug === "protecteur-critique") return OutilProtecteurScreen;
   if (slug === "figure-aidante") return OutilFigureAidanteScreen;
   if (slug === "phrase-confiance") return OutilPhraseConfianceScreen;
+  if (slug === "coussin-emotions") return OutilCoussinScreen;
+  if (slug === "lieu-secure") return OutilLieuSecureScreen;
   return OutilRespirationScreen;
 }
 
