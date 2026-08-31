@@ -58,7 +58,7 @@ const categories = [
       { id: "coussin-emotions", name: "J'accueille mes émotions, je m'équilibre", live: true, route: "#/outil/coussin-emotions" },
       { id: "lieu-secure", name: "Je m'y réfugie, je me sens en sécurité", live: true, route: "#/outil/lieu-secure" },
       { id: "ecriture", name: "J'écris, je m'en libère", live: true, route: "#/outil/ecriture" },
-      { id: "je-verifie", name: "Je vérifie, je reprends la main" }
+      { id: "je-verifie", name: "Je vérifie, je reprends la main", live: true, route: "#/outil/je-verifie" }
     ]
   }
 ];
@@ -68,5 +68,5 @@ const journalMenu = [
   { id: "declencheurs", name: "La liste des déclencheurs", desc: "ta carte, redessinée petit à petit", live: true, route: "#/journal/declencheurs", icon: journalIcon_declencheurs },
   { id: "fil-soirs", name: "Le fil de tes soirs", desc: "nommer, sans expliquer", icon: journalIcon_filSoirs },
   { id: "bilan", name: "Le bilan auto-écrit", desc: "relire, sans compteur ni score", icon: journalIcon_bilan },
-  { id: "verif-attentes", name: "La vérification des attentes", desc: "noter une prédiction, la vérifier", icon: journalIcon_verifAttentes }
+  { id: "verif-attentes", name: "La vérification des attentes", desc: "noter une prédiction, la vérifier", live: true, route: "#/journal/verif-attentes", icon: journalIcon_verifAttentes }
 ];

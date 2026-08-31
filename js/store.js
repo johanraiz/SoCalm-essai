@@ -84,6 +84,36 @@ const store = {
     const plans = this.getPlansDeclencheurs();
     plans[id] = { reflexe: plan.reflexe || "", action: plan.action || "", date: new Date().toISOString() };
     write("journal.plansParDeclencheur", plans);
+  },
+
+  // Journal — "La vérification des attentes" (v0.70, échelle et synthèse v0.73) : noter une
+  // prédiction ou une peur avant un événement, la vérifier après coup (texte libre + échelle 1-5,
+  // ou évitement). Une entrée passe de "à vérifier" à "vérifiée" une seule fois (pas de re-vérification).
+  getPredictions() { return read("journal.predictions", []); },
+  addPrediction(text, confiance10) {
+    const list = this.getPredictions();
+    const id = Date.now() + "-" + Math.random().toString(36).slice(2, 8);
+    const entry = { id, text, date: new Date().toISOString(), verified: false };
+    // Note de confiance sur 10 (v0.72), saisie dans l'outil "Je vérifie, je reprends la main" avant
+    // l'événement — conservée avec la prédiction même si la vérification (v0.73) ne la réaffiche pas
+    // encore : cohérent avec le protocole du modèle d'apprentissage inhibiteur (Craske et al., 2014,
+    // v0.72 point 2), qui suppose une note avant pour mesurer l'écart plus tard.
+    if (typeof confiance10 === "number") entry.confiance10 = confiance10;
+    list.unshift(entry);
+    write("journal.predictions", list);
+    return id;
+  },
+  saveVerification(id, data) {
+    const list = this.getPredictions();
+    const entry = list.find(p => p.id === id);
+    if (!entry) return;
+    entry.verified = true;
+    entry.resultText = data.resultText || "";
+    entry.avoided = !!data.avoided;
+    entry.scale = entry.avoided ? null : (data.scale || null);
+    entry.petitPas = data.petitPas || "";
+    entry.dateVerif = new Date().toISOString();
+    write("journal.predictions", list);
   }
 };
 
