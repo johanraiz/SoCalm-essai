@@ -57,7 +57,7 @@ const categories = [
       { id: "phrase-confiance", name: "J'ai confiance, je tiens bon", live: true, route: "#/outil/phrase-confiance" },
       { id: "coussin-emotions", name: "J'accueille mes émotions, je m'équilibre", live: true, route: "#/outil/coussin-emotions" },
       { id: "lieu-secure", name: "Je m'y réfugie, je me sens en sécurité", live: true, route: "#/outil/lieu-secure" },
-      { id: "ecriture", name: "J'écris, je m'en libère" },
+      { id: "ecriture", name: "J'écris, je m'en libère", live: true, route: "#/outil/ecriture" },
       { id: "je-verifie", name: "Je vérifie, je reprends la main" }
     ]
   }

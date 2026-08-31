@@ -15,6 +15,7 @@ function pickToolScreen(slug) {
   if (slug === "phrase-confiance") return OutilPhraseConfianceScreen;
   if (slug === "coussin-emotions") return OutilCoussinScreen;
   if (slug === "lieu-secure") return OutilLieuSecureScreen;
+  if (slug === "ecriture") return OutilEcritureScreen;
   return OutilRespirationScreen;
 }
 

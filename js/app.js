@@ -1,6 +1,5 @@
 const root = document.getElementById("app");
 let currentScreen = null;
-let splashShown = false;
 
 const routes = [
   { pattern: /^\/onboarding\/?(\d+)?$/, screen: OnboardingScreen, params: m => ({ step: m[1] }) },
@@ -33,12 +32,6 @@ function resolveRoute() {
 }
 
 function renderRoute() {
-  if (!splashShown) {
-    splashShown = true;
-    SplashScreen.render(root, renderRoute);
-    return;
-  }
-
   const resolved = resolveRoute();
   if (!resolved) return; // redirection en cours
 
@@ -50,11 +43,27 @@ function renderRoute() {
   resolved.screen.render(root, resolved.params);
 }
 
+// Bug trouvé pendant les tests de "J'écris, je m'en libère" (v1.44) : le splash appelle renderRoute
+// en callback après son propre délai interne. Si un hashchange survenait entre-temps (rare en usage
+// réel, le splash bloque l'interaction, mais possible via un lien profond ou en tests automatisés),
+// ce callback rejouait un rendu de la route COURANTE par-dessus l'écran déjà affiché — remettant par
+// exemple le minuteur de l'exercice d'écriture à zéro sans raison. Un callback dédié, distinct du
+// gestionnaire de hashchange normal, ignore ce rendu de rattrapage si un écran a déjà été rendu
+// entre-temps — sans jamais bloquer les navigations ultérieures normales (hashchange continue
+// d'appeler renderRoute directement, sans passer par ce garde-fou).
+function onSplashDone() {
+  if (currentScreen) return;
+  renderRoute();
+}
+
 function boot() {
+  function start() {
+    SplashScreen.render(root, onSplashDone);
+  }
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", renderRoute, { once: true });
+    document.addEventListener("DOMContentLoaded", start, { once: true });
   } else {
-    renderRoute();
+    start();
   }
 }
 boot();
