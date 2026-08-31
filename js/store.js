@@ -68,6 +68,11 @@ const store = {
     write("journal.declencheurs", list);
   },
 
+  // Ressource "J'ai confiance, je tiens bon" (v0.54) : la phrase reçue de confiance de l'utilisateur,
+  // écrite et conservée pour être relue au besoin — cœur de l'exercice, pas une simple note "Ma version".
+  getPhraseConfiance() { return read("phraseConfiance", ""); },
+  setPhraseConfiance(v) { write("phraseConfiance", v); },
+
   // Plan d'intention (v0.76, 3 champs v0.97, un plan par situation dès v1.35) :
   // un plan par déclencheur, indexé par son id — relisable et modifiable.
   getPlansDeclencheurs() { return read("journal.plansParDeclencheur", {}); },

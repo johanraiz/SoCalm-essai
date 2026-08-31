@@ -48,7 +48,7 @@ const categories = [
     tools: [
       { id: "protecteur-critique", name: "Je me critique, je me réponds avec tendresse", live: true, route: "#/outil/protecteur-critique" },
       { id: "figure-aidante", name: "Je me confie, je me sens accompagné", live: true, route: "#/outil/figure-aidante" },
-      { id: "phrase-confiance", name: "J'ai confiance, je tiens bon" },
+      { id: "phrase-confiance", name: "J'ai confiance, je tiens bon", live: true, route: "#/outil/phrase-confiance" },
       { id: "coussin-emotions", name: "J'accueille mes émotions, je m'équilibre" },
       { id: "lieu-secure", name: "Je m'y réfugie, je me sens en sécurité" },
       { id: "ecriture", name: "J'écris, je m'en libère" },

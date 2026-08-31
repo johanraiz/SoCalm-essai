@@ -12,6 +12,7 @@ function pickToolScreen(slug) {
   if (slug === "odeur-association") return OutilOdeurAssociationScreen;
   if (slug === "protecteur-critique") return OutilProtecteurScreen;
   if (slug === "figure-aidante") return OutilFigureAidanteScreen;
+  if (slug === "phrase-confiance") return OutilPhraseConfianceScreen;
   return OutilRespirationScreen;
 }
 
