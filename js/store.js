@@ -103,6 +103,16 @@ const store = {
     write("journal.predictions", list);
     return id;
   },
+  // Journal — "Le fil de tes soirs" (v0.56, texte finalisé v0.63, consultation v0.76) : geste
+  // quotidien, nommer les émotions traversées, sans agrégation ni synthèse (à la différence de la
+  // vérification des attentes) — même architecture minimale que la boîte à compliments.
+  getSoirs() { return read("journal.soirs", []); },
+  addSoir(text) {
+    const list = this.getSoirs();
+    list.unshift({ text, date: new Date().toISOString() });
+    write("journal.soirs", list);
+  },
+
   saveVerification(id, data) {
     const list = this.getPredictions();
     const entry = list.find(p => p.id === id);

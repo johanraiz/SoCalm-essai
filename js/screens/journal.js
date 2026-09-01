@@ -369,6 +369,75 @@ function renderVerifAttentesConsult(root) {
   });
 }
 
+// Journal — "Le journal du soir" / "Le fil de tes soirs" (v0.56, texte v0.63, consultation v0.76).
+// Deux noms distincts pour deux moments distincts, tous deux repris mot pour mot du cahier des
+// charges : "Le journal du soir" au moment de nommer (le geste quotidien), "Le fil de tes soirs" à
+// la consultation (relire, sans but autre que de se souvenir) — pas un écart, les deux titres sont
+// bien précisés séparément dans le texte source (v0.63 puis v0.76).
+function renderSoirAjouter(root) {
+  root.innerHTML = `
+    <div class="screen">
+      <div class="back-row"><button class="back" data-back>‹ Journal</button></div>
+      <h3 class="title title-md">Le journal du soir</h3>
+      <div class="body-copy">
+        <p>Avant de fermer la journée, prends un instant.</p>
+        <p>Quelles émotions as-tu traversées aujourd'hui ? Une colère, une joie, une peur, une tristesse, un dégoût, une surprise... ou plusieurs à la fois.</p>
+        <p>Nomme-les, simplement. Tu n'as rien d'autre à en faire.</p>
+        <p>Ce que tu as nommé aujourd'hui a moins de raisons de revenir cette nuit.</p>
+      </div>
+      <textarea class="field" id="soirInput" placeholder="Écris ici…"></textarea>
+      <button class="btn-primary" data-add>Noter</button>
+      <button class="btn-secondary" data-consult>Voir le fil de tes soirs</button>
+      <div class="spacer"></div>
+    </div>
+  `;
+  root.querySelector("[data-back]").addEventListener("click", () => navigate("#/journal"));
+  root.querySelector("[data-consult]").addEventListener("click", () => navigate("#/journal/fil-soirs/consulter"));
+  root.querySelector("[data-add]").addEventListener("click", () => {
+    const input = root.querySelector("#soirInput");
+    const text = input.value.trim();
+    if (!text) return;
+    store.addSoir(text);
+    toast("Noté");
+    navigate("#/journal/fil-soirs/consulter");
+  });
+}
+
+// "Hier soir" / "Avant-hier soir" / "Il y a X soirs", repris tel quel de l'écran témoin validé
+// (design/ecrans-journal.html, écran 6) — "Ce soir" ajouté pour le cas non illustré dans la maquette
+// (une entrée notée puis relue le jour même).
+function libelleSoir(iso) {
+  const jours = Math.floor((Date.now() - new Date(iso).getTime()) / (1000 * 60 * 60 * 24));
+  if (jours <= 0) return "Ce soir";
+  if (jours === 1) return "Hier soir";
+  if (jours === 2) return "Avant-hier soir";
+  return `Il y a ${jours} soirs`;
+}
+
+function renderFilSoirsConsult(root) {
+  const entries = store.getSoirs();
+  root.innerHTML = `
+    <div class="screen">
+      <div class="back-row"><button class="back" data-back>‹ Journal</button></div>
+      <h3 class="title title-md">Le fil de tes soirs</h3>
+      <div class="body-copy">
+        <p>Voici les soirs que tu as traversés, l'un après l'autre.</p>
+        <p>Relis-les si tu en as envie, sans autre but que de te souvenir.</p>
+      </div>
+      ${entries.length === 0
+        ? `<div class="empty-state">Rien à relire pour l'instant.</div>`
+        : entries.map(e => `
+          <div class="entry-row"><div class="date">${libelleSoir(e.date)}</div><div class="txt">${escapeHtml(e.text)}</div></div>
+        `).join("")
+      }
+      <div class="spacer"></div>
+      <button class="btn-primary" data-add>Noter ce soir</button>
+    </div>
+  `;
+  root.querySelector("[data-back]").addEventListener("click", () => navigate("#/journal"));
+  root.querySelector("[data-add]").addEventListener("click", () => navigate("#/journal/fil-soirs"));
+}
+
 function render(root, params) {
   if (!params.section) {
     renderHome(root);
@@ -384,6 +453,10 @@ function render(root, params) {
     renderVerifAttentesConsult(root);
   } else if (params.section === "verif-attentes") {
     renderVerifAttentesAjouter(root);
+  } else if (params.section === "fil-soirs" && params.sub === "consulter") {
+    renderFilSoirsConsult(root);
+  } else if (params.section === "fil-soirs") {
+    renderSoirAjouter(root);
   } else {
     renderHome(root);
   }
