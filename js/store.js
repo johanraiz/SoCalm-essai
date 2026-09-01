@@ -113,6 +113,28 @@ const store = {
     write("journal.soirs", list);
   },
 
+  // Journal — "Le bilan auto-écrit" (v0.63) : réflexion libre, amorcée par l'entrée la plus
+  // ancienne encore disponible dans tout le Journal. Chaque bilan écrit devient lui-même, plus
+  // tard, une entrée disponible pour une future amorce (v0.63, point 2).
+  getBilans() { return read("journal.bilans", []); },
+  addBilan(text) {
+    const list = this.getBilans();
+    list.unshift({ text, date: new Date().toISOString() });
+    write("journal.bilans", list);
+  },
+  // Références des entrées déjà utilisées comme amorce (ex. "compliments:2026-08-01T..."), pour que
+  // chaque amorce n'apparaisse qu'une fois — l'écart avec "aujourd'hui" grandit ainsi naturellement
+  // à chaque nouveau bilan écrit, plutôt que de toujours réafficher la toute première entrée jamais
+  // notée (v0.63, point 1 : "le recul s'installe de lui-même avec le temps").
+  getBilanUsedRefs() { return read("journal.bilanUsed", []); },
+  markBilanRefUsed(ref) {
+    const list = this.getBilanUsedRefs();
+    if (!list.includes(ref)) {
+      list.push(ref);
+      write("journal.bilanUsed", list);
+    }
+  },
+
   saveVerification(id, data) {
     const list = this.getPredictions();
     const entry = list.find(p => p.id === id);

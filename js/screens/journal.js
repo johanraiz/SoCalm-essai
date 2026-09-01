@@ -166,13 +166,12 @@ function renderDeclencheursConsult(root) {
   });
 }
 
-// Journal — "La vérification des attentes" (v0.70, v0.73), catégorie de menu : Journal.
-// Renvoie la proposition complète en tête de phrase ("Aujourd'hui, tu redoutais que...", "Hier,
-// tu redoutais que...", "Il y a X jours, tu redoutais que...") : "Il y a aujourd'hui" ou "Il y a
-// hier" ne fonctionnent pas grammaticalement, contrairement à "Il y a X jours" — corrigé suite à la
-// remarque de Johan (v1.45), la fonction porte donc elle-même le "Il y a" quand il s'applique,
-// plutôt que de le préfixer systématiquement à l'appel.
-function departPhraseDepuisPrediction(iso) {
+// Phrase de tête générique "Aujourd'hui" / "Hier" / "Il y a X jours" — partagée par "La vérification
+// des attentes" et "Le bilan auto-écrit", toutes deux construites sur une phrase "Il y a [X jours],
+// tu ... ". "Il y a aujourd'hui" ou "Il y a hier" ne fonctionnent pas grammaticalement, contrairement
+// à "Il y a X jours" — corrigé suite à la remarque de Johan (v1.45), la fonction porte donc
+// elle-même le "Il y a" quand il s'applique, plutôt que de le préfixer systématiquement à l'appel.
+function departPhraseJours(iso) {
   const jours = Math.floor((Date.now() - new Date(iso).getTime()) / (1000 * 60 * 60 * 24));
   if (jours <= 0) return "Aujourd'hui";
   if (jours === 1) return "Hier";
@@ -265,7 +264,7 @@ function renderVerifAttentesConsult(root) {
             ` : `
               <button class="plan-toggle-btn" data-verif-toggle="${p.id}">Vérifier</button>
               <div class="plan-block" data-verif-block="${p.id}" hidden>
-                <div class="h">${departPhraseDepuisPrediction(p.date)}, tu redoutais que <em>« ${escapeHtml(p.text)} »</em>.<br>Qu'est-ce qui s'est passé, vraiment ?</div>
+                <div class="h">${departPhraseJours(p.date)}, tu redoutais que <em>« ${escapeHtml(p.text)} »</em>.<br>Qu'est-ce qui s'est passé, vraiment ?</div>
                 <textarea class="field" data-verif-field="resultText" placeholder="Écris ici…" style="margin-bottom:8px;"></textarea>
                 <div class="field-lbl">Comparé à ce que tu redoutais, comment ça s'est passé ?</div>
                 <div class="scale-row" data-scale-row="${p.id}">
@@ -438,9 +437,67 @@ function renderFilSoirsConsult(root) {
   root.querySelector("[data-add]").addEventListener("click", () => navigate("#/journal/fil-soirs"));
 }
 
+// Journal — "Le bilan auto-écrit" (v0.63). Rassemble l'entrée la plus ancienne encore disponible
+// dans tout le Journal (compliment, déclencheur, soir nommé, prédiction non encore vérifiée, ou un
+// bilan déjà écrit) — chaque entrée ne sert d'amorce qu'une fois (store.markBilanRefUsed), pour que
+// le recul grandisse naturellement à chaque nouveau bilan plutôt que de rejouer toujours la même.
+function getBilanCandidats() {
+  const used = new Set(store.getBilanUsedRefs());
+  const candidats = [];
+  store.getCompliments().forEach(e => candidats.push({ ref: "compliments:" + e.date, text: e.text, date: e.date }));
+  store.getDeclencheurs().forEach(e => candidats.push({ ref: "declencheurs:" + e.id, text: e.text, date: e.date }));
+  store.getSoirs().forEach(e => candidats.push({ ref: "soirs:" + e.date, text: e.text, date: e.date }));
+  store.getBilans().forEach(e => candidats.push({ ref: "bilans:" + e.date, text: e.text, date: e.date }));
+  store.getPredictions().filter(p => !p.verified).forEach(p => candidats.push({ ref: "predictions:" + p.id, text: p.text, date: p.date }));
+  return candidats
+    .filter(c => !used.has(c.ref))
+    .sort((a, b) => new Date(a.date) - new Date(b.date));
+}
+
+function renderBilan(root) {
+  const dispo = getBilanCandidats();
+  const amorce = dispo.length > 0 ? dispo[0] : null;
+
+  root.innerHTML = `
+    <div class="screen">
+      <div class="back-row"><button class="back" data-back>‹ Journal</button></div>
+      <h3 class="title title-md">Le bilan auto-écrit</h3>
+      ${amorce ? `
+        <div class="body-copy">
+          <p>${departPhraseJours(amorce.date)}, tu as écrit :</p>
+        </div>
+        <div class="quote-block">« ${escapeHtml(amorce.text)} »</div>
+        <div class="body-copy"><p>Qu'est-ce que tu remarques, en le relisant aujourd'hui ?</p></div>
+      ` : `
+        <div class="body-copy">
+          <p>C'est la première fois que tu ouvres cet espace.</p>
+          <p>Ce que tu écris aujourd'hui, tu pourras le relire plus tard — comme un point de départ.</p>
+          <p>Qu'est-ce qui t'amène ici, en ce moment ?</p>
+        </div>
+      `}
+      <textarea class="field" id="bilanInput" placeholder="Écris ici…"></textarea>
+      <button class="btn-primary" data-add>Écrire</button>
+      <div class="spacer"></div>
+    </div>
+  `;
+
+  root.querySelector("[data-back]").addEventListener("click", () => navigate("#/journal"));
+  root.querySelector("[data-add]").addEventListener("click", () => {
+    const input = root.querySelector("#bilanInput");
+    const text = input.value.trim();
+    if (!text) return;
+    if (amorce) store.markBilanRefUsed(amorce.ref);
+    store.addBilan(text);
+    toast("Écrit — tu pourras le relire plus tard");
+    navigate("#/journal");
+  });
+}
+
 function render(root, params) {
   if (!params.section) {
     renderHome(root);
+  } else if (params.section === "bilan") {
+    renderBilan(root);
   } else if (params.section === "compliments" && params.sub === "consulter") {
     renderComplimentsConsult(root);
   } else if (params.section === "compliments") {
