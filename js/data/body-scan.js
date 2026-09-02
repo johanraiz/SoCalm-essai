@@ -81,7 +81,11 @@ const bodyScan = {
           `,
           closing: {
             intro: "Pour t'apaiser, tu peux essayer :",
-            link: { title: "Je m'ancre, je suis là", desc: "l'ancrage par les cinq sens (5-4-3-2)", route: "#/outil/ancrage-5432" }
+            links: [
+              { title: "Je m'ancre, je suis là", desc: "l'ancrage par les cinq sens (5-4-3-2)", route: "#/outil/ancrage-5432" },
+              { title: "Je marche, je me libère", desc: "la marche de nettoyage, pour sortir de l'hypervigilance corporelle", route: "#/outil/marche" },
+              { title: "J'inspire cette odeur, je reviens à moi", desc: "un objet à l'odeur qui rassure, à respirer quand il le faut", route: "#/outil/odeur-rassurante" }
+            ]
           }
         }
       ]

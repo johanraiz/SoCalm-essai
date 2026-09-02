@@ -22,6 +22,7 @@ function renderPhraseConfianceMain(root, slug) {
     `<button class="${n <= favN ? "on" : ""}" data-star="${n}">★</button>`
   ).join("");
   const existing = store.getPhraseConfiance();
+  const toolMeta = categories.flatMap(c => c.tools).find(t => t.id === slug);
 
   root.innerHTML = `
     <div class="screen">
@@ -42,6 +43,7 @@ function renderPhraseConfianceMain(root, slug) {
         <p>Alors je te le dis aujourd'hui : fais-toi confiance, tu vas y arriver. Et ton moi de demain te le confirmera aussi, plus tard.</p>
       </div>
       <div class="spacer"></div>
+      ${toolMeta ? renderRelatedModuleLink(toolMeta.relatedModule) : ""}
       <button class="ma-version" data-maversion><span class="ic">✎</span> Ma version — note personnelle</button>
     </div>
   `;
@@ -60,6 +62,7 @@ function renderPhraseConfianceMain(root, slug) {
     toast("Enregistré");
   });
   root.querySelector("[data-maversion]").addEventListener("click", () => navigate(`#/outil/${slug}/maversion`));
+  wireRelatedModuleLink(root);
 }
 
 function renderPhraseConfianceMaVersion(root, slug) {

@@ -87,7 +87,14 @@ const penseesIntrusives = {
               <p>Ce chemin a été long.</p>
               <p>Bien sûr, aujourd'hui, la mort me fait encore un peu peur. Mais paradoxalement, elle ne m'empêche plus de vivre. Et je n'y pense que très rarement — sauf quand je dois te raconter cette anecdote !</p>
             </div>
-          `
+          `,
+          closing: {
+            intro: "Pour ne plus lutter contre la pensée :",
+            links: [
+              { title: "J'écris, je m'en libère", desc: "l'exercice d'écriture, pour sortir la pensée de ta tête", route: "#/outil/ecriture" },
+              { title: "Je vérifie, je reprends la main", desc: "noter ce que tu redoutes, pour comparer ensuite avec ce qui arrive vraiment", route: "#/outil/je-verifie" }
+            ]
+          }
         }
       ]
     }

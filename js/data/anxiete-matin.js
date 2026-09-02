@@ -53,7 +53,15 @@ const anxieteMatin = {
               <p>Mais l'interprétation que j'en fais, c'est moi qui la construis.</p>
               <p>Et ce que je construis peut nourrir l'angoisse. Ou m'apaiser.</p>
             </div>
-          `
+          `,
+          closing: {
+            intro: "Pour bien démarrer la journée :",
+            links: [
+              { title: "Le mantra", desc: "une phrase simple à te répéter", route: "#/outil/mantra" },
+              { title: "Je m'ancre, je suis là", desc: "l'ancrage par les cinq sens (5-4-3-2)", route: "#/outil/ancrage-5432" },
+              { title: "J'ai confiance, je tiens bon", desc: "une phrase de confiance à te répéter, la tienne", route: "#/outil/phrase-confiance" }
+            ]
+          }
         }
       ]
     }

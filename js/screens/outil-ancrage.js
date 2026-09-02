@@ -17,6 +17,7 @@ function renderAncrageMain(root, slug) {
   ).join("");
 
   const vueTxt = pickCritereVue();
+  const toolMeta = categories.flatMap(c => c.tools).find(t => t.id === slug);
 
   root.innerHTML = `
     <div class="screen">
@@ -57,6 +58,7 @@ function renderAncrageMain(root, slug) {
       </div>
       <p class="ancrage-closing">Tu es là, ici et maintenant.</p>
       <div class="spacer"></div>
+      ${toolMeta ? renderRelatedModuleLink(toolMeta.relatedModule) : ""}
       <button class="ma-version" data-maversion><span class="ic">✎</span> Ma version — note personnelle</button>
     </div>
   `;
@@ -71,6 +73,7 @@ function renderAncrageMain(root, slug) {
     });
   });
   root.querySelector("[data-maversion]").addEventListener("click", () => navigate(`#/outil/${slug}/maversion`));
+  wireRelatedModuleLink(root);
 }
 
 function renderAncrageMaVersion(root, slug) {

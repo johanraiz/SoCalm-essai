@@ -95,7 +95,8 @@ const emotions = {
               {
                 intro: "Pour retrouver l'accès à toute la palette :",
                 links: [
-                  { title: "J'accueille mes émotions, je m'équilibre", desc: "le coussin des émotions", route: "#/outil/coussin-emotions" }
+                  { title: "J'accueille mes émotions, je m'équilibre", desc: "le coussin des émotions", route: "#/outil/coussin-emotions" },
+                  { title: "J'ai confiance, je tiens bon", desc: "une phrase de confiance à te répéter, la tienne", route: "#/outil/phrase-confiance" }
                 ]
               }
             ]

@@ -9,6 +9,7 @@ function render(root, params) {
       <h3 class="title title-md">${escapeHtml(cat.name)}</h3>
       <div class="tool-grid tool-grid-1col">
         ${cat.tools.map(t => `
+          ${t.axisTitle ? `<div class="axis-title">${escapeHtml(t.axisTitle)}</div>` : ""}
           <button class="tool-card ${t.live ? "" : "locked"}" ${t.live ? `data-route="${t.route}"` : "disabled"}>
             ${escapeHtml(t.name)}
             ${t.live ? "" : `<span class="soon">à venir dans cette version d'essai</span>`}

@@ -324,6 +324,14 @@ a.link-row, .link-row {
   padding: 2px 8px;
 }
 .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.axis-title {
+  grid-column: 1 / -1;
+  font-family: Georgia, serif;
+  font-size: 12.5px;
+  font-style: italic;
+  color: var(--muted);
+  margin: 6px 0 -2px;
+}
 .tool-card {
   background: var(--cream);
   border: 1px solid var(--card-border);

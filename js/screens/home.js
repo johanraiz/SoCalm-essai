@@ -23,6 +23,7 @@ function render(root) {
       <h2>${escapeHtml(cat.name)} ${recommended ? `<span class="cat-badge-pour-toi">Pour toi</span>` : ""}</h2>
       <div class="tool-grid">
         ${cat.tools.map(t => `
+          ${t.axisTitle ? `<div class="axis-title">${escapeHtml(t.axisTitle)}</div>` : ""}
           <button class="tool-card ${t.live ? "" : "locked"}" ${t.live ? `data-route="${t.route}"` : "disabled"}>
             ${escapeHtml(t.name)}
             ${t.live ? "" : `<span class="soon">à venir dans cette version d'essai</span>`}

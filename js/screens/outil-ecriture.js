@@ -57,6 +57,7 @@ function renderEcritureMain(root, slug) {
   ).join("");
 
   let secondesRestantes = ECRITURE_DUREE_S;
+  const toolMeta = categories.flatMap(c => c.tools).find(t => t.id === slug);
 
   root.innerHTML = `
     <div class="screen">
@@ -75,6 +76,7 @@ function renderEcritureMain(root, slug) {
       <button class="btn-primary" data-close>Refermer — mets-le dans la boîte</button>
       <p class="ecriture-closing">Ce texte disparaît, il n'est pas gardé. Tu lui as donné sa place. Pour aujourd'hui, c'est fait.</p>
       <div class="spacer"></div>
+      ${toolMeta ? renderRelatedModuleLink(toolMeta.relatedModule) : ""}
       <button class="ma-version" data-maversion><span class="ic">✎</span> Ma version — note personnelle</button>
     </div>
   `;
@@ -108,6 +110,7 @@ function renderEcritureMain(root, slug) {
     stopEcritureTimer();
     navigate(`#/outil/${slug}/maversion`);
   });
+  wireRelatedModuleLink(root);
 }
 
 function renderEcritureMaVersion(root, slug) {

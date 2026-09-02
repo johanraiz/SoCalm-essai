@@ -74,11 +74,11 @@ const fondateur = {
           climax: true,
           closing: {
             intro: "Pour t'apaiser, tu peux essayer :",
-            link: {
-              title: "Je respire, je m'apaise en profondeur",
-              desc: "l'exercice de respiration en trois niveaux",
-              route: "#/outil/respiration-3-niveaux"
-            }
+            links: [
+              { title: "Je respire, je m'apaise en profondeur", desc: "l'exercice de respiration en trois niveaux", route: "#/outil/respiration-3-niveaux" },
+              { title: "Je m'ancre, je suis là", desc: "l'ancrage par les cinq sens (5-4-3-2)", route: "#/outil/ancrage-5432" },
+              { title: "Je marche, je me libère", desc: "la marche de nettoyage, pour évacuer par le mouvement", route: "#/outil/marche" }
+            ]
           }
         }
       ]

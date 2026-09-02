@@ -15,6 +15,7 @@ function renderLieuSecureMain(root, slug) {
   const stars = [1, 2, 3, 4, 5].map(n =>
     `<button class="${n <= favN ? "on" : ""}" data-star="${n}">★</button>`
   ).join("");
+  const toolMeta = categories.flatMap(c => c.tools).find(t => t.id === slug);
 
   root.innerHTML = `
     <div class="screen">
@@ -33,6 +34,7 @@ function renderLieuSecureMain(root, slug) {
         <p>Respire cette image à travers <strong>ton cœur</strong>, pour <strong>ancrer cette sensation</strong> en toi. Et laisse cette sensation grandir.</p>
       </div>
       <div class="spacer"></div>
+      ${toolMeta ? renderRelatedModuleLink(toolMeta.relatedModule) : ""}
       <button class="ma-version" data-maversion><span class="ic">✎</span> Ma version — note personnelle</button>
     </div>
   `;
@@ -47,6 +49,7 @@ function renderLieuSecureMain(root, slug) {
     });
   });
   root.querySelector("[data-maversion]").addEventListener("click", () => navigate(`#/outil/${slug}/maversion`));
+  wireRelatedModuleLink(root);
 }
 
 function renderLieuSecureMaVersion(root, slug) {

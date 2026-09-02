@@ -82,7 +82,8 @@ const ruminationSoir = {
             intro: "Pour désamorcer la boucle :",
             links: [
               { title: "J'écris, je m'en libère", desc: "l'exercice d'écriture, pour une pensée qui tourne", route: "#/outil/ecriture" },
-              { title: "J'accueille mes émotions, je m'équilibre", desc: "le coussin des émotions, rituel du soir", route: "#/outil/coussin-emotions" }
+              { title: "J'accueille mes émotions, je m'équilibre", desc: "le coussin des émotions, rituel du soir", route: "#/outil/coussin-emotions" },
+              { title: "Je m'ancre, je suis là", desc: "l'ancrage par les cinq sens (5-4-3-2), pour interrompre la boucle", route: "#/outil/ancrage-5432" }
             ]
           }
         }

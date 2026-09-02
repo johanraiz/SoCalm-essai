@@ -65,7 +65,13 @@ const evitement = {
               <p>J'ai compris qu'un chien qui court vers toi en aboyant, parfois, c'est juste qu'il veut jouer. Petit à petit, un lien de confiance a grandi entre ce chien et moi.</p>
               <p><span class="hl">Ma peur des chiens s'est nettement améliorée</span> depuis, et <span class="hl">ma croyance a évolué</span> : maintenant je sais que certains chiens peuvent être dangereux et je sais m'en protéger, mais que la plupart sont très affectueux et joueurs.</p>
             </div>
-          `
+          `,
+          closing: {
+            intro: "Pour reprendre la main sur l'évitement :",
+            links: [
+              { title: "Je vérifie, je reprends la main", desc: "noter ce que tu redoutes, pour comparer ensuite avec ce qui arrive vraiment", route: "#/outil/je-verifie" }
+            ]
+          }
         }
       ]
     }
