@@ -272,6 +272,14 @@ a.link-row, .link-row {
 
 .closing-hint { font-family: Georgia, serif; font-style: italic; font-size: 13px; color: var(--sage-dark); margin: 16px 0 8px; }
 
+/* v1.58 : bouton discret de retour à l'accueil, injecté en bas de chaque écran (cf. js/util.js,
+   injectHomeLink, et js/app.js, renderRoute). Texte simple et atténué plutôt qu'un bouton plein —
+   ne doit jamais rivaliser visuellement avec l'action principale de l'écran (ex. les liens de clôture
+   d'un module). Zone de tap généreuse malgré le poids visuel léger, pour rester facile à toucher. */
+.home-link-discreet { text-align: center; margin-top: 18px; flex-shrink: 0; }
+.home-link-discreet a { display: inline-block; padding: 10px 14px; color: var(--muted); font-size: 11.5px; text-decoration: none; }
+.home-link-discreet a:active { opacity: 0.6; }
+
 /* ---------- home grid ---------- */
 .journal-pill {
   align-self: flex-end;

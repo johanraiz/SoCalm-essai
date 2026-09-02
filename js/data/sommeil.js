@@ -15,14 +15,12 @@
 // "neurologie de la crise", "body-scan" et "respiration" : la clôture du volet 2 (case 2.6) est elle
 // aussi en sage-dark dans la maquette, pas en gold-dark (couleur d'identité du volet 2).
 //
-// POINT SIGNALÉ, NON BLOQUANT (même situation que "symptômes digestifs") : les trois liens de clôture
-// de la case 2.6 ne sont PAS présentés comme validés dans l'écran témoin — la note d'en-tête dit
-// explicitement "Trois liens de clôture proposés, à confirmer", et l'écran porte lui-même un badge
-// "proposition — à confirmer". Construits ici quand même — cohérents avec le texte : l'exercice
-// d'écriture correspond directement au "laisser tomber, ce n'est pas important" de l'astuce, le lieu
-// sécure et la respiration sont explicitement cités en case 1.10 ("les exercices de ce module",
-// "la respiration peut la relâcher") — mais CE POINT PRÉCIS, comme pour "symptômes digestifs", reste à
-// confirmer par Johan à la relecture finale.
+// Trois liens de clôture confirmés par Johan à la relecture finale (v1.57) — proposés dans l'écran
+// témoin sous réserve de confirmation ("Trois liens de clôture proposés, à confirmer", badge
+// "proposition — à confirmer" sur la case 2.6), cohérents avec le texte : l'exercice d'écriture
+// correspond directement au "laisser tomber, ce n'est pas important" de l'astuce, le lieu sécure et la
+// respiration sont explicitement cités en case 1.10 ("les exercices de ce module", "la respiration peut
+// la relâcher"). Validation actée, plus une proposition — même décision que "symptômes digestifs".
 //
 // Encart "Ça peut aussi t'intéresser" : la maquette dit "un outil pratique en lien" au singulier alors
 // que trois liens sont proposés — reformulé au pluriel, numéro de version retiré (même schéma que les

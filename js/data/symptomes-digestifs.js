@@ -3,15 +3,11 @@
 // unique de 13 cases (pas de volets, comme "évitement" et "catastrophisme") — pas d'anecdote personnelle
 // (choix déjà acté dans le texte source lui-même).
 //
-// POINT SIGNALÉ, NON BLOQUANT (batch de construction, "arrête-toi si important" sinon continue et note) :
-// à la différence de tous les autres modules construits jusqu'ici, le lien de clôture n'est PAS présenté
-// comme déjà validé dans l'écran témoin — la note d'en-tête du fichier dit explicitement "Lien de clôture
-// proposé, à confirmer [...] Dis-moi si ça te va", et l'écran de la case 13 porte lui-même un badge
-// "proposition — à confirmer". Construit ici quand même (le lien est cohérent avec le texte de la case
-// 13 elle-même : "ralentir ta respiration apaise aussi ton ventre" pointe explicitement vers l'exercice
-// de respiration en trois niveaux, déjà en ligne) plutôt que de laisser le module sans clôture du tout —
-// mais CE POINT PRÉCIS reste à confirmer par Johan à la relecture finale, contrairement au reste du
-// contenu de ce module qui est, lui, entièrement validé mot pour mot.
+// Lien de clôture confirmé par Johan à la relecture finale (v1.57) — proposé dans l'écran témoin sous
+// réserve de confirmation ("Lien de clôture proposé, à confirmer [...] Dis-moi si ça te va", badge
+// "proposition — à confirmer" sur la case 13), cohérent avec le texte de la case elle-même ("ralentir ta
+// respiration apaise aussi ton ventre" pointe explicitement vers l'exercice de respiration en trois
+// niveaux, déjà en ligne). Validation actée, plus une proposition.
 //
 // Encart "Ça peut aussi t'intéresser" : même schéma que "peur de perdre le contrôle" et "body-scan" — le
 // texte de la maquette ("(v0.32)") mélange une note de production avec le contenu réel. Reformulé sans

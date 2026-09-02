@@ -41,6 +41,12 @@ function renderRoute() {
   currentScreen = resolved.screen;
   window.scrollTo(0, 0);
   resolved.screen.render(root, resolved.params);
+  // Bouton discret de retour à l'accueil (v1.58) : partout sauf sur l'accueil lui-même (inutile) et
+  // pendant l'onboarding (parcours de configuration initiale, pas encore de "chez soi" à rejoindre —
+  // et onboardingDone n'étant pas encore posé, un clic y ramènerait de toute façon aussitôt).
+  if (resolved.screen !== HomeScreen && resolved.screen !== OnboardingScreen) {
+    injectHomeLink(root);
+  }
 }
 
 // Bug trouvé pendant les tests de "J'écris, je m'en libère" (v1.44) : le splash appelle renderRoute

@@ -54,3 +54,25 @@ function wireRelatedModuleLink(root) {
     });
   }
 }
+
+// Bouton discret de retour à l'accueil, en bas de chaque écran (v1.58, à la demande de Johan :
+// "un bouton discret" retenu parmi les options proposées). Injecté une seule fois, de façon
+// centralisée, après le rendu de chaque écran (cf. app.js, renderRoute) plutôt que dupliqué dans
+// chaque fiche — un seul endroit à maintenir, aucun risque d'oubli sur un écran futur. Répond à un
+// besoin différent du bouton de retour contextuel en haut de chaque écran (qui ne remonte qu'un
+// niveau) : sortir directement vers l'accueil depuis n'importe quel écran, sans avoir à remonter la
+// pile pas à pas. Volontairement discret (texte simple, couleur atténuée, pas de bouton plein) pour ne
+// jamais concurrencer l'action principale de l'écran — en particulier sur les cases de module et leurs
+// liens de clôture, où l'accent doit rester sur l'outil proposé, pas sur la sortie.
+function injectHomeLink(root) {
+  const screen = root.querySelector(".screen");
+  if (!screen) return;
+  screen.insertAdjacentHTML("beforeend", `<div class="home-link-discreet"><a href="#/" data-home-link>Retour à l'accueil</a></div>`);
+  const link = screen.querySelector("[data-home-link]");
+  if (link) {
+    link.addEventListener("click", (e) => {
+      e.preventDefault();
+      navigate("#/");
+    });
+  }
+}
