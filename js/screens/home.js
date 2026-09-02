@@ -1,3 +1,10 @@
+// État de dépli des axes de "Comprendre" (v1.61) : en mémoire seulement, pas persisté en localStorage —
+// volontaire, pour que chaque nouvelle arrivée sur l'accueil reparte sur un écran épuré (tout replié).
+// Survit en revanche à une navigation aller-retour vers un module puis retour à l'accueil, tant que
+// l'application n'est pas rechargée entièrement (variable au niveau du module, même principe que
+// `activeToolScreen` dans outil-router.js).
+let openAxis = null;
+
 function render(root) {
   const prenom = store.getPrenom();
 
@@ -22,13 +29,7 @@ function render(root) {
     <div class="cat-section ${recommended ? "recommended" : ""}">
       <h2>${escapeHtml(cat.name)} ${recommended ? `<span class="cat-badge-pour-toi">Pour toi</span>` : ""}</h2>
       <div class="tool-grid">
-        ${cat.tools.map(t => `
-          ${t.axisTitle ? `<div class="axis-title">${escapeHtml(t.axisTitle)}</div>` : ""}
-          <button class="tool-card ${t.live ? "" : "locked"}" ${t.live ? `data-route="${t.route}"` : "disabled"}>
-            ${escapeHtml(t.name)}
-            ${t.live ? "" : `<span class="soon">à venir dans cette version d'essai</span>`}
-          </button>
-        `).join("")}
+        ${renderAxisGroupedHtml(cat.tools, openAxis)}
       </div>
     </div>
   `;
@@ -91,6 +92,10 @@ function render(root) {
       store.setHomeView(b.getAttribute("data-view"));
       HomeScreen.render(root);
     });
+  });
+  wireAxisToggles(root, (key) => {
+    openAxis = openAxis === key ? null : key;
+    HomeScreen.render(root);
   });
 }
 

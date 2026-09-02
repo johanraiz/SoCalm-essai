@@ -324,14 +324,28 @@ a.link-row, .link-row {
   padding: 2px 8px;
 }
 .tool-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.axis-title {
+.axis-toggle {
   grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-top: 1px solid var(--card-border);
+  padding: 12px 2px 8px;
+  margin: 4px 0 0;
   font-family: Georgia, serif;
-  font-size: 12.5px;
   font-style: italic;
-  color: var(--muted);
-  margin: 6px 0 -2px;
+  font-size: 12.5px;
+  color: var(--sage-dark);
+  cursor: pointer;
+  text-align: left;
 }
+.axis-toggle .chev { margin-left: auto; font-size: 13px; color: var(--sage-dark); transition: transform 0.15s ease; }
+.axis-toggle.open .chev { transform: rotate(90deg); }
+.axis-toggle.open { color: var(--gold-ink); }
+.axis-toggle.open .chev { color: var(--gold-ink); }
 .tool-card {
   background: var(--cream);
   border: 1px solid var(--card-border);

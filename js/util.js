@@ -55,6 +55,62 @@ function wireRelatedModuleLink(root) {
   }
 }
 
+// Grille de catégorie repliable par axe (v1.61), à la demande de Johan : sur l'onglet "Comprendre",
+// avoir les 15 titres de modules tous visibles en même temps risquait de surcharger et d'angoisser la
+// personne qui lit — beaucoup de titres de modules sont volontairement percutants pris un par un, mais
+// s'accumulent mal en liste. Seuls les 4 intitulés d'axe (posés en v1.60 via `axisTitle` sur le premier
+// module de chaque axe, cf. js/data/grid.js) sont visibles par défaut ; taper dessus déplie les modules
+// de cet axe. "Fondateur" (aucun `axisTitle`, en tête de liste) reste toujours visible, jamais replié —
+// c'est le point de départ recommandé de tout le module Comprendre. Un seul axe ouvert à la fois
+// (Johan, v1.61) : en ouvrir un referme automatiquement celui qui était ouvert, pour rester le plus
+// épuré possible. Générique : ne fait rien de spécial pour les catégories dont aucun outil ne porte
+// `axisTitle` (Je respire, Je m'ancre, Mes ressources) — tous leurs outils tombent simplement dans le
+// groupe "sans axe", rendu exactement comme avant.
+function buildAxisGroups(tools) {
+  const ungrouped = [];
+  const groups = [];
+  let current = null;
+  tools.forEach(t => {
+    if (t.axisTitle) {
+      current = { key: t.id, title: t.axisTitle, tools: [t] };
+      groups.push(current);
+    } else if (current) {
+      current.tools.push(t);
+    } else {
+      ungrouped.push(t);
+    }
+  });
+  return { ungrouped, groups };
+}
+
+function renderToolCardHtml(t) {
+  return `
+    <button class="tool-card ${t.live ? "" : "locked"}" ${t.live ? `data-route="${t.route}"` : "disabled"}>
+      ${escapeHtml(t.name)}
+      ${t.live ? "" : `<span class="soon">à venir dans cette version d'essai</span>`}
+    </button>
+  `;
+}
+
+function renderAxisGroupedHtml(tools, openAxisKey) {
+  const { ungrouped, groups } = buildAxisGroups(tools);
+  const ungroupedHtml = ungrouped.map(renderToolCardHtml).join("");
+  const groupsHtml = groups.map(g => `
+    <button class="axis-toggle ${openAxisKey === g.key ? "open" : ""}" data-axis-toggle="${g.key}">
+      <span class="axis-toggle-title">${escapeHtml(g.title)}</span>
+      <span class="chev">›</span>
+    </button>
+    ${openAxisKey === g.key ? g.tools.map(renderToolCardHtml).join("") : ""}
+  `).join("");
+  return ungroupedHtml + groupsHtml;
+}
+
+function wireAxisToggles(root, onToggle) {
+  root.querySelectorAll("[data-axis-toggle]").forEach(btn => {
+    btn.addEventListener("click", () => onToggle(btn.getAttribute("data-axis-toggle")));
+  });
+}
+
 // Bouton discret de retour à l'accueil, en bas de chaque écran (v1.58, à la demande de Johan :
 // "un bouton discret" retenu parmi les options proposées). Injecté une seule fois, de façon
 // centralisée, après le rendu de chaque écran (cf. app.js, renderRoute) plutôt que dupliqué dans
