@@ -83,7 +83,7 @@ function render(root, params) {
     inner += `
       <div class="body-copy"><p>${step.body[0]}</p></div>
       ${step.options.map(o => `
-        <button class="option" data-option data-category="${o.category}">
+        <button class="option" data-option data-route="${o.route}">
           <div class="h"><span class="ic">●</span>${escapeHtml(o.h)}</div>
           <div class="d">${escapeHtml(o.d)}</div>
         </button>
@@ -115,8 +115,10 @@ function render(root, params) {
     navigate("#/onboarding/" + (stepIndex + 1));
   });
   root.querySelectorAll("[data-option]").forEach(b => b.addEventListener("click", () => {
-    store.setPointDepart(b.getAttribute("data-category"));
-    goNext();
+    // Ouvre directement sur le module suggéré (v1.62) plutôt que de simplement mémoriser un choix pour
+    // l'accueil — la personne peut toujours revenir en arrière ensuite, rien n'est fermé (v0.74).
+    store.setOnboardingDone(true);
+    navigate(b.getAttribute("data-route"));
   }));
 
   if (step.id === "respiration") startBreathAnim(root);

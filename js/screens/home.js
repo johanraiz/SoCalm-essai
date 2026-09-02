@@ -20,14 +20,12 @@ function render(root) {
     <path d="M58 56 H70" stroke-width="4.2"/>
   </svg>`;
 
-  const pointDepart = store.getPointDepart();
   const view = store.getHomeView();
 
   const catsHtmlListe = categories.map(cat => {
-    const recommended = pointDepart && cat.id === pointDepart;
     return `
-    <div class="cat-section ${recommended ? "recommended" : ""}">
-      <h2>${escapeHtml(cat.name)} ${recommended ? `<span class="cat-badge-pour-toi">Pour toi</span>` : ""}</h2>
+    <div class="cat-section">
+      <h2>${escapeHtml(cat.name)}</h2>
       <div class="tool-grid">
         ${renderAxisGroupedHtml(cat.tools, openAxis)}
       </div>
@@ -44,16 +42,12 @@ function render(root) {
 
   const catsHtmlGrille = `
     <div class="grid-tiles">
-      ${categories.map(cat => {
-        const recommended = pointDepart && cat.id === pointDepart;
-        return `
-          <button class="grid-tile grid-tile-${cat.id} ${recommended ? "recommended" : ""}" data-route="#/categorie/${cat.id}">
-            ${recommended ? `<span class="cat-badge-pour-toi tile-badge">Pour toi</span>` : ""}
+      ${categories.map(cat => `
+          <button class="grid-tile grid-tile-${cat.id}" data-route="#/categorie/${cat.id}">
             <img class="grid-tile-icon" src="${tileIcons[cat.id] || ""}" alt="">
             <span class="grid-tile-name">${escapeHtml(cat.name)}</span>
           </button>
-        `;
-      }).join("")}
+        `).join("")}
     </div>
   `;
 

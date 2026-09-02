@@ -45,8 +45,12 @@ const store = {
   getCaseProgress(moduleSlug) { return read("progress." + moduleSlug, 0); },
   setCaseProgress(moduleSlug, index) { write("progress." + moduleSlug, index); },
 
-  getPointDepart() { return read("pointDepart", null); },
-  setPointDepart(v) { write("pointDepart", v); },
+  // getPointDepart/setPointDepart (mise en avant d'une catégorie entière depuis l'onboarding, v1.15)
+  // retirés en v1.62 : jamais validés par Johan, et repérés par lui comme "ne proposant rien" de
+  // concret — remplacés par une redirection directe vers le module suggéré (cf. js/screens/onboarding.js),
+  // conforme au texte d'origine du cahier des charges (v0.74). Toute donnée déjà enregistrée sous la clé
+  // localStorage "socalm.pointDepart" chez une personne qui utilisait déjà l'app devient simplement
+  // inerte (plus lue nulle part) — sans effet ni erreur.
 
   getHomeView() { return read("homeView", "grille"); },
   setHomeView(v) { write("homeView", v); },

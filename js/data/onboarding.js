@@ -34,12 +34,24 @@ const onboardingSteps = [
     mantra: "À chaque instant, je fais de mon mieux.<br>Chaque petit pas compte."
   },
   {
+    // Suggestion module + outil (v0.74 du cahier des charges), corrigée en v1.62 : la version
+    // construite en v1.15 ("proposition de Claude, pas encore validée par Johan") ne mettait en avant
+    // qu'une catégorie entière d'outils (badge "Pour toi" sur "Je respire"/"Je m'ancre"/"Mes
+    // ressources"), jamais confirmée par Johan et repérée par lui comme ne "proposant rien" de concret.
+    // Le texte d'origine du cahier des charges (v0.74) était pourtant précis : chaque réponse doit
+    // suggérer UN module de psychoéducation ET UN outil précis, pas une catégorie. Corrigé ici en
+    // pointant directement vers la couverture du module suggéré — chacun des trois modules ci-dessous a
+    // déjà, dans son propre lien de clôture, exactement l'outil prévu par le cahier des charges (Mon
+    // cœur s'emballe → respiration ; J'imagine toujours le pire → ancrage ; Je ne gère pas mes émotions
+    // → coussin des émotions), donc la personne y arrive naturellement en terminant le module, sans
+    // rien construire de neuf pour l'outil. Toujours une suggestion, jamais un chemin fermé (v0.74) :
+    // rien n'empêche de revenir à l'accueil ensuite (bouton retour ou lien discret de retour, v1.58).
     id: "depart",
     body: ["Ce qui te pèse le plus en ce moment, c'est plutôt…"],
     options: [
-      { h: "Ton corps", d: "cœur qui s'emballe, tensions, sommeil", category: "je-respire" },
-      { h: "Tes pensées", d: "ça tourne en boucle, tu imagines le pire", category: "je-mancre" },
-      { h: "Tes émotions", d: "difficile à identifier, à exprimer, trop d'émotions, trop intense", category: "mes-ressources" }
+      { h: "Ton corps", d: "cœur qui s'emballe, tensions, sommeil", route: "#/module/neurologie-crise" },
+      { h: "Tes pensées", d: "ça tourne en boucle, tu imagines le pire", route: "#/module/catastrophisme" },
+      { h: "Tes émotions", d: "difficile à identifier, à exprimer, trop d'émotions, trop intense", route: "#/module/emotions" }
     ],
     skip: "Je préfère explorer moi-même"
   }
