@@ -51,10 +51,25 @@ function render(root) {
     </div>
   `;
 
+  // Invitation discrète au message vocal (v1.64) : affichée une seule fois, juste après
+  // l'onboarding, tant qu'aucun message n'a encore été enregistré et que l'invitation n'a pas déjà
+  // été vue/écartée — jamais réintroduite ensuite, y compris si la personne enregistre un message
+  // puis le supprime plus tard. Décision de Johan (cahier des charges v1.64) : ne rien demander
+  // pendant l'onboarding lui-même (pas de permission micro à ce stade), mais mettre la fonction en
+  // valeur dès l'arrivée sur l'accueil plutôt que de la laisser seulement dans "Mes ressources".
+  const showInvite = !store.getMessageVocalInviteVu() && !store.getMessageVocal();
+  const inviteHtml = showInvite ? `
+    <div class="home-invite">
+      <div class="home-invite-txt">Un endroit pour toi : tu peux <a data-route="#/outil/phrase-confiance" data-invite-link>enregistrer un message pour toi-même</a>, à réécouter dans les moments plus difficiles.</div>
+      <button class="home-invite-dismiss" data-invite-dismiss aria-label="Plus tard">✕</button>
+    </div>
+  ` : "";
+
   root.innerHTML = `
     <div class="screen">
       <h1 class="title">${prenom ? "Bonjour " + escapeHtml(prenom) : "SoCalm"}</h1>
       <div class="subtitle">stockage local uniquement</div>
+      ${inviteHtml}
       <div class="central-btn-section">
         <button class="cbtn-wrap" data-route="#/detresse">
           <span class="cbtn-ring"></span>
@@ -80,6 +95,13 @@ function render(root) {
 
   root.querySelectorAll("[data-route]").forEach(b => {
     b.addEventListener("click", () => navigate(b.getAttribute("data-route")));
+  });
+  const inviteLink = root.querySelector("[data-invite-link]");
+  if (inviteLink) inviteLink.addEventListener("click", () => store.setMessageVocalInviteVu(true));
+  const inviteDismiss = root.querySelector("[data-invite-dismiss]");
+  if (inviteDismiss) inviteDismiss.addEventListener("click", () => {
+    store.setMessageVocalInviteVu(true);
+    HomeScreen.render(root);
   });
   root.querySelectorAll("[data-view]").forEach(b => {
     b.addEventListener("click", () => {

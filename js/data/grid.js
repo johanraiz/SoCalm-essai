@@ -80,12 +80,16 @@ const categories = [
     id: "mes-ressources",
     name: "Mes ressources",
     tools: [
-      { id: "protecteur-critique", name: "Je me critique, je me réponds avec tendresse", live: true, route: "#/outil/protecteur-critique" },
-      { id: "figure-aidante", name: "Je me confie, je me sens accompagné", live: true, route: "#/outil/figure-aidante" },
       {
+        // Placé en tête de "Mes ressources" depuis la v1.64 (auparavant 3e) : porte désormais aussi
+        // le message vocal pour les moments difficiles (cf. js/screens/outil-phrase-confiance.js) —
+        // Johan la considère comme la ressource la plus importante, à mettre en valeur (cahier des
+        // charges v1.64), d'où cette remontée en premier dans la liste.
         id: "phrase-confiance", name: "J'ai confiance, je tiens bon", live: true, route: "#/outil/phrase-confiance",
         relatedModule: { slug: "anxiete-matin", title: "Je me réveille déjà anxieux·se, qu'est-ce que je fais ?", desc: "le module qui explique pourquoi l'angoisse est parfois plus forte au réveil" }
       },
+      { id: "protecteur-critique", name: "Je me critique, je me réponds avec tendresse", live: true, route: "#/outil/protecteur-critique" },
+      { id: "figure-aidante", name: "Je me confie, je me sens accompagné", live: true, route: "#/outil/figure-aidante" },
       { id: "coussin-emotions", name: "J'accueille mes émotions, je m'équilibre", live: true, route: "#/outil/coussin-emotions" },
       {
         id: "lieu-secure", name: "Je m'y réfugie, je me sens en sécurité", live: true, route: "#/outil/lieu-secure",

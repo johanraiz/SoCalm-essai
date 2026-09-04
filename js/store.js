@@ -55,6 +55,34 @@ const store = {
   getHomeView() { return read("homeView", "grille"); },
   setHomeView(v) { write("homeView", v); },
 
+  // Message vocal de confiance (v1.64) — enregistré par la personne pour elle-même, à réécouter
+  // dans un moment difficile ; rattaché à l'outil "J'ai confiance, je tiens bon" et mis en priorité
+  // dans le flux du bouton "Moment difficile". Un seul message actif à la fois : un nouvel
+  // enregistrement remplace toujours l'ancien. Contrairement à write() ci-dessus (qui avale toute
+  // erreur de quota en silence, choix acceptable pour une note de texte), setMessageVocal() ici
+  // renvoie explicitement false en cas d'échec — un message de réconfort qui semblerait enregistré
+  // mais serait en réalité perdu au moment d'une crise serait le pire scénario possible pour cette
+  // fonction précise ; l'appelant doit pouvoir en informer clairement la personne plutôt que de la
+  // laisser croire, à tort, que son message est bien sauvegardé.
+  getMessageVocal() { return read("messageVocal", null); },
+  setMessageVocal(dataUrl) {
+    try {
+      localStorage.setItem(NS + "messageVocal", JSON.stringify({ dataUrl, date: new Date().toISOString() }));
+      return true;
+    } catch (e) {
+      return false;
+    }
+  },
+  clearMessageVocal() {
+    try { localStorage.removeItem(NS + "messageVocal"); } catch (e) { /* stockage indisponible */ }
+  },
+
+  // Bandeau d'invitation à enregistrer ce message, affiché une seule fois sur l'accueil juste après
+  // l'onboarding (v1.64) — jamais réaffiché une fois vu ou écarté, qu'un message ait été enregistré
+  // ou non entre-temps.
+  getMessageVocalInviteVu() { return read("messageVocalInviteVu", false); },
+  setMessageVocalInviteVu(v) { write("messageVocalInviteVu", v); },
+
   // Ancrage 5-4-3-2 (v0.45) : le critère de l'étape "vue" alterne à chaque usage (couleur / forme, point 2).
   getAncrageDernierCritere() { return read("ancrage.dernierCritere", null); },
   setAncrageDernierCritere(v) { write("ancrage.dernierCritere", v); },

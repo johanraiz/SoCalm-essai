@@ -74,6 +74,38 @@ function renderRedirection(root) {
     navigate(target);
   };
 
+  // Message vocal personnel (v1.64) : s'il existe, on le propose en priorité, avant la
+  // redirection automatique habituelle — décision de Johan, cahier des charges v1.64. Contrairement
+  // au reste de cet écran, PAS d'avance automatique sur minuteur ici : un message de 30 secondes
+  // coupé net par un minuteur de 3,2s irait à l'encontre de l'objectif (le laisser vraiment écouter).
+  const message = store.getMessageVocal();
+  if (message) {
+    root.innerHTML = `
+      <div class="screen">
+        <div class="back-row"><button class="back" data-back>‹ Accueil</button></div>
+        <h3 class="title title-md">Ton message pour toi</h3>
+        <div class="subtitle">Le message que tu avais enregistré pour ce genre de moment.</div>
+        <div class="detresse-mv-card">
+          <div class="lbl">Ton message</div>
+          <audio class="mv-audio" controls src="${message.dataUrl}"></audio>
+        </div>
+        <button class="btn-primary" data-continue>Continuer</button>
+        <div class="spacer"></div>
+        <div class="emergency-strip">
+          <div class="lbl">Besoin d'aide tout de suite ?</div>
+          <div class="txt">Le <b>3114</b>, gratuit et disponible 24h/24. En cas d'urgence vitale : le <b>15</b> ou le <b>112</b>.</div>
+        </div>
+      </div>
+    `;
+    root.querySelector("[data-back]").addEventListener("click", (e) => {
+      e.stopPropagation();
+      done = true;
+      navigate("#/");
+    });
+    root.querySelector("[data-continue]").addEventListener("click", finish);
+    return;
+  }
+
   root.innerHTML = `
     <div class="screen">
       <div class="back-row"><button class="back" data-back>‹ Accueil</button></div>
