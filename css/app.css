@@ -815,17 +815,6 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
   color: var(--muted);
   margin: 0 0 12px;
 }
-.mv-section .btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 11px 16px;
-  width: auto;
-}
-.mv-section .btn-primary .ic {
-  color: var(--terracotta);
-  font-size: 10px;
-}
 .mv-section .btn-secondary { margin: 8px 0 0; padding: 0; }
 .mv-audio { width: 100%; margin: 4px 0 10px; }
 .mv-actions { display: flex; gap: 10px; align-items: center; }
@@ -852,25 +841,76 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
   margin: 0 0 8px;
 }
 
-/* Barre qui se remplit doucement pendant les 30 secondes d'enregistrement — volontairement sans
-   chiffres qui décomptent, pour rester dans le ton calme de l'app plutôt qu'un effet de chrono. */
-.mv-progress {
+/* Petit écran d'enregistrement : un bouton rond central, qui démarre ET arrête l'enregistrement
+   (revu en v1.64 suite au retour de Johan "pas assez clair" — auparavant un bouton "Enregistrer"
+   séparé d'un bouton "Terminer" plus bas). Un anneau se remplit doucement autour du bouton sur les
+   30 secondes, volontairement sans chiffres qui décomptent, pour rester dans le ton calme de l'app
+   plutôt qu'un effet de chrono. */
+.mv-record-focus {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0 4px;
+}
+.mv-record-wrap {
+  position: relative;
+  width: 116px;
+  height: 116px;
+}
+.mv-ring {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: 8px;
-  border-radius: 999px;
-  background: var(--sage);
-  overflow: hidden;
-  margin: 4px 0 2px;
-}
-.mv-progress-fill {
   height: 100%;
-  width: 0%;
-  border-radius: 999px;
-  background: var(--sage-dark);
-  transition: width linear;
+  transform: rotate(-90deg);
 }
+.mv-ring-bg, .mv-ring-fg {
+  fill: none;
+  stroke-width: 6;
+}
+.mv-ring-bg { stroke: var(--sage); }
+.mv-ring-fg {
+  stroke: var(--sage-dark);
+  stroke-linecap: round;
+  transition: stroke-dashoffset linear;
+}
+.mv-circle-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 78px;
+  height: 78px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(130% 130% at 50% 0%, rgba(255,255,255,0.4) 0%, rgba(255,255,255,0) 55%), linear-gradient(135deg, #96b68c, #76946c);
+  box-shadow: 0 3px 8px rgba(108,136,99,0.28), inset 0 1px 10px rgba(255,255,255,0.3);
+}
+.mv-circle-btn:active { transform: translate(-50%, -50%) scale(0.96); }
+.mv-circle-btn.is-recording {
+  background: radial-gradient(130% 130% at 50% 0%, rgba(255,255,255,0.35) 0%, rgba(255,255,255,0) 55%), linear-gradient(135deg, #c88361, var(--terracotta));
+  box-shadow: 0 3px 8px rgba(182,112,74,0.35), inset 0 1px 10px rgba(255,255,255,0.25);
+}
+.mv-icon-dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--terracotta);
+}
+.mv-icon-stop {
+  width: 20px;
+  height: 20px;
+  border-radius: 4px;
+  background: #fff;
+}
+.mv-record-caption { font-size: 11px; color: var(--muted); text-align: center; }
 @media (prefers-reduced-motion: reduce) {
-  .mv-progress-fill { transition: none; }
+  .mv-ring-fg { transition: none; }
 }
 
 /* ---------- bandeau d'invitation sur l'accueil (v1.64) ---------- */

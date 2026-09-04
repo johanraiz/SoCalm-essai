@@ -19,10 +19,13 @@
 // Message vocal pour les moments difficiles (v1.64) — enregistrement par la personne, pour
 // elle-même, réécouté en priorité depuis le bouton "Moment difficile" (cf. js/screens/detresse.js).
 // Discussion complète et décisions de Johan consignées dans le cahier des charges (v1.64) : intégré
-// ici plutôt qu'en outil séparé, jamais proposé pendant l'onboarding lui-même (juste une invitation
-// discrète sur l'accueil ensuite, cf. home.js), 30 secondes maximum avec arrêt automatique et une
-// barre qui se remplit doucement plutôt qu'un décompte chiffré (pour rester dans le ton calme de
-// l'app), et un seul message actif à la fois.
+// ici plutôt qu'en outil séparé (et placé en tête de la fiche, avant le texte de la phrase de
+// confiance, pour bien le mettre en valeur), jamais proposé pendant l'onboarding lui-même (juste une
+// invitation discrète sur l'accueil ensuite, cf. home.js), 30 secondes maximum avec arrêt automatique
+// et un seul message actif à la fois. Interaction revue sur retour de Johan ("pas assez claire") :
+// un seul bouton rond au centre démarre ET arrête l'enregistrement (plutôt que deux boutons séparés),
+// avec un anneau qui se remplit doucement autour de lui pendant les 30 secondes, plutôt qu'un
+// décompte chiffré ou une barre horizontale sous le texte (pour rester dans le ton calme de l'app).
 //
 // État en mémoire seulement (comme openAxis ailleurs dans l'app) — remis à zéro par cleanup() dès
 // qu'on quitte la fiche outil ; pas de sens à conserver un enregistrement en cours ou non sauvegardé
@@ -35,6 +38,34 @@ let mvPendingDataUrl = null;
 let mvScreenState = "idle"; // idle | recording | review | error
 let mvErrorMsg = "";
 let mvBusy = false;
+// true quand on est en train de (ré)enregistrer alors qu'un message existe déjà (bouton "Remplacer
+// ce message") : permet d'afficher le petit écran d'enregistrement même si `saved` est non nul.
+let mvShowRecorder = false;
+
+// Circonférence du cercle de progression (rayon 45 sur un viewBox 100 — cf. .mv-ring dans app.css) :
+// 2 × π × 45 ≈ 282.7. Valeur reprise en JS pour piloter le remplissage (stroke-dashoffset).
+const MV_RING_CIRCUMFERENCE = 282.7;
+
+// Petit écran d'enregistrement (v1.64, revu sur retour de Johan "pas assez clair") : un seul bouton
+// rond au centre sert à la fois à démarrer ET à arrêter l'enregistrement (au lieu d'un bouton
+// "Enregistrer" séparé d'un bouton "Terminer" plus bas) ; un anneau autour du bouton se remplit
+// doucement sur 30 secondes pendant l'enregistrement, plutôt qu'une barre horizontale sous le texte.
+function renderRecordFocusHtml(recording) {
+  return `
+    <div class="mv-record-focus">
+      <div class="mv-record-wrap">
+        <svg class="mv-ring" viewBox="0 0 100 100">
+          <circle class="mv-ring-bg" cx="50" cy="50" r="45"></circle>
+          <circle class="mv-ring-fg" id="mvRingFg" cx="50" cy="50" r="45"></circle>
+        </svg>
+        <button class="mv-circle-btn ${recording ? "is-recording" : ""}" data-mv-toggle aria-label="${recording ? "Arrêter l'enregistrement" : "Commencer l'enregistrement"}">
+          ${recording ? `<span class="mv-icon-stop"></span>` : `<span class="mv-icon-dot"></span>`}
+        </button>
+      </div>
+      <div class="mv-record-caption">${recording ? "Appuie de nouveau pour terminer — 30 secondes maximum." : "Appuie pour commencer — 30 secondes maximum."}</div>
+    </div>
+  `;
+}
 
 function renderMessageVocalHtml() {
   const saved = store.getMessageVocal();
@@ -43,9 +74,7 @@ function renderMessageVocalHtml() {
     return `
       <div class="mv-section">
         <div class="mv-title">Un message pour les moments difficiles</div>
-        <div class="mv-progress"><div class="mv-progress-fill" id="mvFillBar"></div></div>
-        <div class="mv-hint">Tu peux t'arrêter quand tu veux — 30 secondes maximum.</div>
-        <button class="btn-secondary" data-mv-stop>Terminer maintenant</button>
+        ${renderRecordFocusHtml(true)}
       </div>
     `;
   }
@@ -73,12 +102,12 @@ function renderMessageVocalHtml() {
     `;
   }
 
-  if (saved) {
+  if (saved && !mvShowRecorder) {
     return `
       <div class="mv-section">
         <div class="mv-title">Ton message pour les moments difficiles</div>
         <audio class="mv-audio" controls src="${saved.dataUrl}"></audio>
-        <button class="mv-link" data-mv-record>Remplacer ce message</button>
+        <button class="mv-link" data-mv-show-recorder>Remplacer ce message</button>
       </div>
     `;
   }
@@ -88,7 +117,7 @@ function renderMessageVocalHtml() {
       <div class="mv-title">Un message pour les moments difficiles</div>
       <p class="mv-intro">Enregistre un message court pour toi-même — quelque chose qui pourrait te remonter le moral dans un moment difficile. Reste bref : tu as 30 secondes.</p>
       <p class="mv-permission-hint">On va te demander d'autoriser le micro, juste pour cet enregistrement.</p>
-      <button class="btn-primary" data-mv-record><span class="ic">●</span> Enregistrer un message</button>
+      ${renderRecordFocusHtml(false)}
     </div>
   `;
 }
@@ -148,11 +177,24 @@ async function mvStartRecording(root, slug) {
 }
 
 function wireMessageVocalSection(root, slug) {
-  const recordBtn = root.querySelector("[data-mv-record]");
-  if (recordBtn) recordBtn.addEventListener("click", () => mvStartRecording(root, slug));
+  // Un seul bouton rond sert à démarrer ET à arrêter l'enregistrement (v1.64, revu à la demande de
+  // Johan — l'ancienne version avait un bouton "Enregistrer" séparé d'un bouton "Terminer" plus bas,
+  // jugée pas assez claire). On distingue les deux actions par l'état courant plutôt que par deux
+  // boutons différents.
+  const toggleBtn = root.querySelector("[data-mv-toggle]");
+  if (toggleBtn) toggleBtn.addEventListener("click", () => {
+    if (mvScreenState === "recording") {
+      mvStopRecording();
+    } else {
+      mvStartRecording(root, slug);
+    }
+  });
 
-  const stopBtn = root.querySelector("[data-mv-stop]");
-  if (stopBtn) stopBtn.addEventListener("click", mvStopRecording);
+  const showRecorderBtn = root.querySelector("[data-mv-show-recorder]");
+  if (showRecorderBtn) showRecorderBtn.addEventListener("click", () => {
+    mvShowRecorder = true;
+    renderPhraseConfianceMain(root, slug);
+  });
 
   const retryBtn = root.querySelector("[data-mv-retry]");
   if (retryBtn) retryBtn.addEventListener("click", () => {
@@ -168,6 +210,7 @@ function wireMessageVocalSection(root, slug) {
     mvPendingDataUrl = null;
     if (ok) {
       mvScreenState = "idle";
+      mvShowRecorder = false;
       toast("Message enregistré");
     } else {
       mvScreenState = "error";
@@ -176,14 +219,17 @@ function wireMessageVocalSection(root, slug) {
     renderPhraseConfianceMain(root, slug);
   });
 
-  // Barre qui se remplit doucement sur 30 secondes (v1.64) : posée à 0 dans le gabarit HTML puis
-  // étendue à 100% juste après le rendu, pour que la transition CSS (durée posée ici en JS) parte
-  // bien de zéro au lieu de sauter instantanément au maximum.
-  const fill = root.querySelector("#mvFillBar");
-  if (fill) {
+  // Anneau qui se remplit doucement sur 30 secondes autour du bouton rond (v1.64) : posé à "vide"
+  // (stroke-dashoffset = circonférence) dans le gabarit HTML puis étendu à "plein" (0) juste après
+  // le rendu, pour que la transition CSS (durée posée ici en JS) parte bien de zéro plutôt que de
+  // sauter instantanément au maximum — même technique que l'ancienne barre horizontale qu'il remplace.
+  const ring = root.querySelector("#mvRingFg");
+  if (ring) {
+    ring.style.strokeDasharray = String(MV_RING_CIRCUMFERENCE);
+    ring.style.strokeDashoffset = String(MV_RING_CIRCUMFERENCE);
     requestAnimationFrame(() => {
-      fill.style.transitionDuration = "30s";
-      fill.style.width = "100%";
+      ring.style.transitionDuration = "30s";
+      ring.style.strokeDashoffset = "0";
     });
   }
 }
@@ -203,6 +249,7 @@ function renderPhraseConfianceMain(root, slug) {
         <div class="fav-row">${stars}</div>
       </div>
       <h3 class="title title-sm">J'ai confiance, je tiens bon</h3>
+      ${renderMessageVocalHtml()}
       <div class="body-copy">
         <p>Il y a peut-être, quelque part en toi, une phrase que quelqu'un t'a dite un jour — un parent, un ami, un soignant, quelqu'un en qui tu avais confiance — et qui t'a aidé à tenir. Note-la ici, pour pouvoir te la redire chaque fois que tu en as besoin.</p>
       </div>
@@ -214,7 +261,6 @@ function renderPhraseConfianceMain(root, slug) {
         <p>Il y a eu des moments où je n'arrivais pas vraiment à y croire. Et pourtant, aujourd'hui, je peux te dire qu'elle avait raison.</p>
         <p>Alors je te le dis aujourd'hui : fais-toi confiance, tu vas y arriver. Et ton moi de demain te le confirmera aussi, plus tard.</p>
       </div>
-      ${renderMessageVocalHtml()}
       <div class="spacer"></div>
       ${toolMeta ? renderRelatedModuleLink(toolMeta.relatedModule) : ""}
       <button class="ma-version" data-maversion><span class="ic">✎</span> Ma version — note personnelle</button>
@@ -289,6 +335,7 @@ function cleanup() {
   mvPendingDataUrl = null;
   mvErrorMsg = "";
   mvBusy = false;
+  mvShowRecorder = false;
 }
 
 const OutilPhraseConfianceScreen = { render, cleanup };
