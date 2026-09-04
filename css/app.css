@@ -1,7 +1,10 @@
 :root {
   --bg: #f5e8cd;
   --ink: #221f1b;
-  --muted: #837b70;
+  /* Assombri en v1.65 (#837b70 → #6d665d) pour remonter le contraste au-dessus du seuil WCAG AA
+     (4.5:1) sur les deux fonds où ce ton est utilisé : 3.44:1 → 4.67:1 sur --bg, 3.71:1 → 5.04:1
+     sur --cream. Même teinte (brun-gris chaud), juste un peu plus sombre. */
+  --muted: #6d665d;
   --card-border: #ecdcb9;
   --sage: #b7cdb0;
   --sage-dark: #6c8863;
@@ -20,7 +23,10 @@ html, body {
   padding: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  /* v1.65 : Nunito Sans remplace la police système par défaut, jugée trop sérieuse (retour
+     utilisateur relayé par Johan). Comparée sur du vrai contenu de l'app avant validation (cahier
+     des charges v1.65, option 3 retenue). */
+  font-family: 'Nunito Sans', -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   min-height: 100%;
 }
 
@@ -80,8 +86,14 @@ body {
 .back-row .back:hover { color: var(--ink); }
 
 /* ---------- typography ---------- */
+/* v1.65 : Fredoka remplace Georgia sur les titres d'écran — le duo Fredoka/Nunito Sans (option 3,
+   la plus "fun" des trois comparées) a été retenu par Johan. Les autres usages de Georgia (citations,
+   mantras, texte des cases, avatar, minuteur — accents plus "émotionnels" que titres) sont laissés
+   inchangés pour l'instant : hors du périmètre comparé et validé ici, à rouvrir séparément si Johan
+   le souhaite (cf. cahier des charges v1.65). */
 h1.title, h3.title {
-  font-family: Georgia, serif;
+  font-family: 'Fredoka', -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-weight: 600;
   font-size: 20px;
   margin: 0 0 10px;
   color: var(--ink);
@@ -103,7 +115,7 @@ h1.title, h3.title {
 }
 .usage-badge { color: var(--sage-dark); background: var(--sage); }
 
-.body-copy { font-size: 13px; line-height: 1.6; color: var(--ink); }
+.body-copy { font-size: 15.5px; line-height: 1.65; color: var(--ink); } /* 13px → 15.5px, v1.65 */
 .body-copy p { margin: 0 0 10px; }
 .body-copy blockquote { margin: 0 0 10px; padding-left: 12px; border-left: 3px solid var(--card-border); color: var(--muted); }
 .count { color: var(--gold-dark); font-weight: 700; }
@@ -619,7 +631,7 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 .sense-step .txt .h .sense-verb { font-size: 15px; }
 .sense-step .txt .d { font-size: 10.5px; color: var(--muted); margin-top: 1px; line-height: 1.4; }
 /* ---------- outil "Je marche, je me libère" (v1.30) — encart anecdote, cf. design/ecrans-outils-je-mancre.html ---------- */
-.anecdote { background: var(--sage); border-radius: 14px; padding: 12px 14px; margin-top: 10px; font-size: 11.5px; line-height: 1.55; color: #3f4f39; }
+.anecdote { background: var(--sage); border-radius: 14px; padding: 12px 14px; margin-top: 10px; font-size: 14.5px; line-height: 1.6; color: #3f4f39; } /* 11.5px → 14.5px, v1.65 */
 .anecdote .lbl { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #557052; margin-bottom: 5px; }
 .anecdote p { margin: 0 0 6px; }
 .anecdote p:last-child { margin-bottom: 0; }
@@ -805,8 +817,8 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
   margin-bottom: 8px;
 }
 .mv-intro {
-  font-size: 12.5px;
-  line-height: 1.55;
+  font-size: 14.5px; /* aligné sur .anecdote, v1.65 */
+  line-height: 1.6;
   color: var(--ink);
   margin: 0 0 6px;
 }
