@@ -689,6 +689,22 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 #onboardingScreen .gift-card .mantra { font-size: 19.5px; }
 #onboardingScreen .breath-label { font-size: 16.5px; }
 
+/* v1.67 : mention "SoCalm ne remplace pas une thérapie", en toute dernière chose avant d'entrer
+   dans l'appli (écran "depart" de l'onboarding). Encadré discret plutôt que texte nu, pour se
+   distinguer visuellement du choix principal de l'écran (les trois options ci-dessus) sans pour
+   autant avoir l'air d'un simple avertissement légal en petits caractères — cohérent avec la
+   lisibilité déjà relevée en v1.65 (14px minimum, jamais en dessous). */
+.onboarding-disclaimer {
+  background: var(--cream);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-top: 14px;
+}
+.onboarding-disclaimer p { font-size: 14px; line-height: 1.55; color: var(--ink); margin: 0; }
+.onboarding-disclaimer p:first-child { font-weight: 700; }
+.onboarding-disclaimer p + p { margin-top: 6px; }
+
 /* ---------- journal specific ---------- */
 .mantra-banner { background: var(--cream); border: 1px solid var(--card-border); border-radius: 18px; padding: 16px 16px; margin-bottom: 18px; }
 .mantra-banner .lbl { font-size: 9.5px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 6px; }
