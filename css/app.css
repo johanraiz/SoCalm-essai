@@ -130,17 +130,24 @@ h1.title, h3.title {
 .search-results { margin-top: 14px; }
 .search-hint { font-size: 13.5px; line-height: 1.55; color: var(--muted); padding: 4px 2px; }
 
+/* v1.68 : contraste corrigé (A2, relecture bêta-testeur v1.63) — le texte gold-dark sur fond gold
+   ne passait qu'à 2.25:1, et sage-dark sur fond sage à 2.32:1, tous deux largement sous le seuil
+   WCAG AA (4.5:1). Fond des badges inchangé (aucun nouveau ton introduit) : le texte reprend deux
+   teintes déjà utilisées ailleurs dans l'app pour exactement cette même situation, texte foncé sur
+   fond de couleur pastel — --gold-ink (déjà utilisé sur fond --gold pour .chip.on, 5.48:1) et --ink
+   (déjà utilisé sur fond --sage pour .option.chosen, 9.67:1) — pas une nouvelle proposition visuelle,
+   juste la généralisation d'un choix déjà fait et déjà vu dans l'app. */
 .cat-badge, .usage-badge {
   display: inline-block;
   font-size: 10px;
   font-weight: 700;
-  color: var(--gold-dark);
+  color: var(--gold-ink);
   background: var(--gold);
   border-radius: 12px;
   padding: 3px 10px;
   margin-bottom: 14px;
 }
-.usage-badge { color: var(--sage-dark); background: var(--sage); }
+.usage-badge { color: var(--ink); background: var(--sage); }
 
 .body-copy { font-size: 15.5px; line-height: 1.65; color: var(--ink); } /* 13px → 15.5px, v1.65 */
 .body-copy p { margin: 0 0 10px; }
@@ -576,7 +583,11 @@ a.link-row, .link-row {
 .level-card.suggested .level-num { background: var(--gold-dark); }
 .level-txt .h { font-size: 12.5px; font-weight: 700; color: var(--ink); }
 .level-txt .d { font-size: 10.5px; color: var(--muted); margin-top: 1px; line-height: 1.4; }
-.level-tag { font-size: 9px; font-weight: 700; color: var(--gold-dark); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 3px; }
+/* v1.68 : contraste corrigé (A2) — n'apparaît en pratique que sur .level-card.suggested (fond
+   --sage), où gold-dark ne passait qu'à 2.12:1. --gold-ink (5.15:1 sur --sage, 7.78:1 sur --cream)
+   garde l'intention d'origine — un accent doré distinct du corps sauge de la carte "Suggéré", comme
+   son cercle numéroté — tout en repassant au-dessus du seuil WCAG AA. */
+.level-tag { font-size: 9px; font-weight: 700; color: var(--gold-ink); text-transform: uppercase; letter-spacing: 0.04em; margin-top: 3px; }
 
 .ma-version { margin-top: 16px; display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: var(--muted); border-top: 1px solid var(--card-border); padding-top: 14px; background: none; border-left: none; border-right: none; border-bottom: none; cursor: pointer; font-family: inherit; width: 100%; text-align: left; }
 .ma-version .ic { width: 24px; height: 24px; border-radius: 8px; background: var(--cream); border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
