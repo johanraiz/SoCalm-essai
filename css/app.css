@@ -27,6 +27,26 @@
      avec ce problème précis. */
   --sage-deep: #5b7354;
   --gold-deep: #8b661d;
+
+  /* Ajoutés en v1.76 (mode sombre) : les deux teintes du dégradé de fond de #app et du dégradé de
+     .glow-block étaient écrites en dur — impossible à faire varier selon le thème sans être promues
+     en variables. Valeurs identiques aux littéraux d'origine en mode clair (aucun changement visuel
+     tant que le mode sombre n'est pas actif) ; valeurs sombres définies plus bas. */
+  --app-grad-1: #fdf7e9;
+  --app-grad-2: #ecd8a8;
+  --glow-grad-1: #fdf3da;
+
+  /* Ajoutés en v1.76 : alias de couleurs "d'identité de volet" (cf. module.js, colorVar) utilisés
+     UNIQUEMENT pour le texte de la fraction de progression (.case-progress .frac) — jamais pour le
+     remplissage de la barre elle-même, qui garde sa couleur d'origine dans les deux thèmes. En mode
+     clair, valeurs identiques aux couleurs d'origine (aucun changement visuel) ; en mode sombre,
+     redéfinies plus bas vers des teintes plus claires, lisibles sur fond sombre — cf. commentaire du
+     bloc @media plus bas pour la raison (ces couleurs d'accent servent aussi de FOND avec texte blanc
+     ailleurs dans l'app, donc ne peuvent pas être éclaircies globalement sans casser ces usages-là). */
+  --frac-sage-dark: var(--sage-dark);
+  --frac-gold-dark: var(--gold-dark);
+  --frac-terracotta: var(--terracotta);
+  --frac-slate: var(--slate);
 }
 
 * { box-sizing: border-box; }
@@ -56,7 +76,7 @@ body {
   display: flex;
   flex-direction: column;
   position: relative;
-  background: linear-gradient(165deg, #fdf7e9 0%, var(--bg) 55%, #ecd8a8 100%);
+  background: linear-gradient(165deg, var(--app-grad-1) 0%, var(--bg) 55%, var(--app-grad-2) 100%);
 }
 
 .screen {
@@ -720,7 +740,7 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 .ecriture-closing { font-style: italic; color: var(--sage-dark); text-align: center; margin: 8px 0 0; font-size: 12.5px; line-height: 1.5; }
 
 /* ---------- ressource "Je me confie, je me sens accompagné" (v1.38), cf. design/ecrans-outils-mes-ressources.html ---------- */
-.glow-block { background: linear-gradient(165deg, #fdf3da, var(--cream)); border-radius: 14px; padding: 13px 15px; margin: 10px 0; font-size: 12.5px; line-height: 1.6; color: #2f4a29; box-shadow: 0 0 22px 4px rgba(232,201,138,0.45), 0 0 46px 10px rgba(232,201,138,0.2); }
+.glow-block { background: linear-gradient(165deg, var(--glow-grad-1), var(--cream)); border-radius: 14px; padding: 13px 15px; margin: 10px 0; font-size: 12.5px; line-height: 1.6; color: #2f4a29; box-shadow: 0 0 22px 4px rgba(232,201,138,0.45), 0 0 46px 10px rgba(232,201,138,0.2); }
 .glow-block p { margin: 0 0 8px; }
 .glow-block p:last-child { margin-bottom: 0; }
 
@@ -1078,3 +1098,128 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
   margin: 10px 0;
 }
 .detresse-mv-card .lbl { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: var(--sage-dark); margin-bottom: 6px; }
+
+/* =====================================================================================
+   MODE SOMBRE (v1.76) — déclenchement automatique selon le réglage du téléphone
+   (prefers-color-scheme), choix de Johan (v1.76) : pas de bouton manuel dans l'app.
+
+   Principe retenu après audit complet du fichier (15 variables + 87 couleurs écrites en
+   dur) : les 5 variables de "chrome" (fond de page, carte, texte, texte atténué, bordure)
+   basculent vers une palette sombre ci-dessous. Les couleurs "d'accent" (--sage, --sage-dark,
+   --gold, --gold-dark, --gold-ink, --gold-dark-text, --terracotta, --slate, --sage-deep,
+   --gold-deep) restent VOLONTAIREMENT inchangées dans les deux thèmes : ce sont des couleurs
+   de marque utilisées comme fonds de cartes/badges avec un texte qui leur est spécifiquement
+   apparié (ex. texte vert foncé sur fond sage, texte "gold-ink" sur fond gold) — les éclaircir
+   casserait ces paires déjà validées, et les foncer casserait à l'inverse les nombreux cas où
+   elles servent de fond avec du texte BLANC dessus (avatar, badges, cercles numérotés, bouton
+   "Moment difficile"...). Un accent de marque qui ne bouge pas d'un thème à l'autre est un
+   choix de mode sombre courant et délibéré, pas un oubli.
+
+   Cette règle a une conséquence directe : partout où le CSS existant utilisait --ink ou
+   --muted (qui, eux, changent de thème) comme texte posé SUR un de ces fonds d'accent
+   (ex. .usage-badge, .grid-tile-name, .home-recognition, ou .option/.level-card une fois
+   "choisi"/"suggéré"), ce texte doit être figé à sa valeur claire d'origine pour rester
+   lisible sur un fond d'accent qui, lui, ne change pas — sinon le texte deviendrait clair
+   sur un fond resté clair. De même, les quelques couleurs d'accent utilisées comme TEXTE
+   sur un fond qui LUI bascule (page ou carte) ont été explicitement conçues, d'après leurs
+   propres commentaires plus haut dans ce fichier, "pour du texte lisible sur fond clair" —
+   elles ne passent plus le seuil WCAG une fois ce fond assombri. Chaque cas a été vérifié
+   individuellement (ratio calculé, jamais deviné) ; les nouvelles teintes ci-dessous ne
+   s'appliquent qu'à ces emplacements précis, jamais aux fonds d'accent eux-mêmes.
+
+   Un repère pour Johan si un écran semble "faux" en mode sombre à l'usage : les fonds
+   d'accent (sage/gold/etc.) ne bougent pas, seuls le fond de page/carte et le texte neutre
+   changent — c'est voulu, pas un bug à corriger en aveugle. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1a201c;
+    --ink: #eee7d8;
+    --muted: #a8a196;
+    --card-border: #3c473e;
+    --cream: #262f28;
+    --app-grad-1: #222a23;
+    --app-grad-2: #151915;
+    --glow-grad-1: #2a3129;
+
+    /* Teintes sombres des couleurs d'accent utilisées comme TEXTE sur un fond qui bascule
+       (page ou carte) — jamais utilisées comme fond. Vérifiées ≥ 4.5:1 sur --bg et --cream
+       sombres (cf. cahier des charges v1.76 pour le détail des calculs). */
+    --dark-text-sage: #94b686;
+    --dark-text-gold: #e0b862;
+    --dark-text-terracotta: #d99269;
+    --dark-text-slate: #8fb0c9;
+    /* Valeur claire d'origine de --ink, figée : pour le texte qui reste posé sur un fond
+       d'accent volontairement non assombri (cf. explication ci-dessus). */
+    --dark-text-ink-frozen: #221f1b;
+
+    --frac-sage-dark: var(--dark-text-sage);
+    --frac-gold-dark: var(--dark-text-gold);
+    --frac-terracotta: var(--dark-text-terracotta);
+    --frac-slate: var(--dark-text-slate);
+  }
+
+  /* --- texte --ink/--muted figé, posé sur un fond d'accent non assombri --- */
+  .usage-badge,
+  .grid-tile-name,
+  .home-recognition,
+  .level-card.suggested .level-txt .h,
+  .level-card.suggested .level-txt .d,
+  .option.chosen .h,
+  .option.chosen .d {
+    color: var(--dark-text-ink-frozen);
+  }
+
+  /* --- texte --sage-dark, posé sur un fond qui bascule (page ou carte crème) --- */
+  .closing-hint,
+  .cat-section h2,
+  .axis-toggle,
+  .axis-toggle .chev,
+  .phase-label,
+  .name-highlight,
+  .field-lbl,
+  .timer,
+  .usage-note,
+  .ecriture-closing,
+  .closing,
+  .ancrage-closing,
+  .reflection-note,
+  .mv-link,
+  .home-invite-txt a,
+  .home-autoeval-invite a,
+  .detresse-mv-card .lbl,
+  .body-copy blockquote.marche-phrase,
+  .option .ic,
+  .plan-toggle-btn {
+    color: var(--dark-text-sage);
+  }
+  .plan-toggle-btn { border-color: var(--dark-text-sage); }
+
+  /* Exceptions : ces deux-là passent parfois sur un fond --sage non assombri (case
+     "choisie"/"a un plan") — on y garde alors la couleur d'origine, identique au mode clair
+     (contraste déjà imparfait aujourd'hui sur ce fond précis, cf. cahier des charges — pas
+     aggravé ni "corrigé" ici, juste laissé identique dans les deux thèmes). */
+  .option.chosen .ic { color: var(--sage-dark); }
+  .plan-toggle-btn.has-plan { color: var(--sage-dark); border-color: var(--sage-dark); }
+
+  /* --- texte --gold-ink / --gold-dark-text, posé sur un fond qui bascule --- */
+  .axis-toggle.open,
+  .axis-toggle.open .chev,
+  .mv-title,
+  .count,
+  .fav-row button.on {
+    color: var(--dark-text-gold);
+  }
+
+  /* --- texte --terracotta, posé sur un fond qui bascule --- */
+  .emergency-strip .lbl,
+  .timer.done {
+    color: var(--dark-text-terracotta);
+  }
+  .timer.done { border-color: var(--dark-text-terracotta); }
+
+  /* --- vert foncé écrit en dur (#2f4a29 / #3f4f39), posé sur un fond qui bascule --- */
+  .glow-block,
+  .dialog-ex .ans {
+    color: var(--dark-text-sage);
+  }
+}
