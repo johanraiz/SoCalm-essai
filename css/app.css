@@ -770,6 +770,10 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 .chip-row { display: flex; flex-wrap: wrap; gap: 6px; margin: 10px 0; }
 .chip { display: inline-block; background: var(--cream); border: 1px solid var(--card-border); border-radius: 12px; padding: 6px 11px; font-size: 11px; font-weight: 600; color: var(--ink); cursor: pointer; font-family: inherit; }
 .chip.on { background: var(--gold); border-color: var(--gold-dark); color: var(--gold-ink); }
+/* v1.73 : un item de l'auto-évaluation de progression (libellé + chip-row de 3 réponses en mots),
+   simple espacement entre chaque ligne — pas de nouveau composant, réutilise .field-lbl et .chip-row
+   déjà en place ailleurs dans l'app. */
+.autoeval-item { margin-bottom: 6px; }
 .quote-block { background: var(--cream); border-left: 3px solid var(--sage-dark); border-radius: 8px; padding: 12px 14px; margin: 10px 0 14px; font-family: Georgia, serif; font-style: italic; font-size: 13px; color: var(--ink); line-height: 1.5; }
 .quote-block .quote-meta { font-size: 10.5px; font-style: normal; font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; color: var(--muted); margin-bottom: 6px; }
 .scale-row { display: flex; gap: 5px; margin: 8px 0 4px; }
@@ -1042,6 +1046,24 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
   color: var(--ink);
   font-weight: 600;
 }
+
+/* v1.73 : bandeau d'invitation à l'auto-évaluation de progression (point 1 du volet clinique, avis
+   bêta-testeur v1.63). Même traitement que .home-invite ci-dessus (une invitation avec lien, pas un
+   simple constat comme .home-recognition) mais SANS bouton de fermeture : contrairement au message
+   vocal (jamais réaffiché une fois vu/écarté), ce rappel doit pouvoir revenir après le délai de 15
+   jours déjà validé avec Johan — un "vu, ne plus jamais montrer" ne conviendrait pas à un rappel
+   périodique (cf. computeAutoEvalInviteHtml, js/screens/home.js). */
+.home-autoeval-invite {
+  background: var(--cream);
+  border: 1px solid var(--card-border);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--ink);
+}
+.home-autoeval-invite a { color: var(--sage-dark); font-weight: 700; text-decoration: underline; cursor: pointer; }
 
 /* ---------- lecture prioritaire du message vocal dans le bouton "Moment difficile" (v1.64) ---------- */
 .detresse-mv-card {
