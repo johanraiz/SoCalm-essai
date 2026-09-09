@@ -774,9 +774,9 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 .empty-state { font-size: 12px; color: var(--muted); font-style: italic; text-align: center; padding: 24px 10px; }
 .plan-block { background: var(--sage); border-radius: 16px; padding: 14px; margin-top: 14px; }
 .plan-block .h { font-size: 11.5px; font-weight: 700; color: #3f4f39; margin-bottom: 8px; line-height: 1.4; }
-.plan-field { background: rgba(255,255,255,0.55); border-radius: 10px; padding: 8px 10px; font-size: 11px; color: #557052; margin-bottom: 6px; }
+.plan-field { background: rgba(255,255,255,0.55); border-radius: 10px; padding: 8px 10px; font-size: 11px; color: #41563f; margin-bottom: 6px; } /* #557052 → #41563f, contraste corrigé v1.71 (même correction déjà faite pour .link-row en v1.66) */
 .plan-field b { color: #3f4f39; display: block; margin-bottom: 3px; }
-.plan-field .plan-input { display: block; width: 100%; border: none; background: none; font: inherit; font-size: 11px; color: #557052; padding: 0; }
+.plan-field .plan-input { display: block; width: 100%; border: none; background: none; font: inherit; font-size: 11px; color: #41563f; padding: 0; }
 .plan-field .plan-input::placeholder { color: #8ba57e; }
 .plan-block .btn-primary { margin-top: 8px; padding: 10px; font-size: 12px; }
 /* v1.35 : un plan par déclencheur (bouton "Je change ma façon de réagir" sur chaque entrée). */
@@ -786,7 +786,7 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 .plan-toggle-btn.has-plan { background: var(--sage); }
 .plan-toggle-btn:active { opacity: 0.8; }
 .entry-row-wrap .plan-block { margin-top: 6px; }
-.plan-field .plan-situation-fixed { display: block; font-size: 11px; color: #557052; font-style: italic; }
+.plan-field .plan-situation-fixed { display: block; font-size: 11px; color: #41563f; font-style: italic; } /* #557052 → #41563f, contraste corrigé v1.71 */
 .synth-block { background: var(--sage); border-radius: 16px; padding: 14px; margin: 4px 0 14px; }
 .synth-block .lbl { font-size: 9.5px; font-weight: 700; color: #3f4f39; text-transform: uppercase; letter-spacing: 0.04em; margin-bottom: 6px; }
 .synth-block .txt { font-size: 12px; color: #3f4f39; line-height: 1.5; }
