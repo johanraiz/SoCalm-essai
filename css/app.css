@@ -1018,6 +1018,22 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
   padding: 2px 4px;
 }
 
+/* v1.70 : bandeau de reconnaissance factuelle sur l'accueil (cf. commentaire de
+   computeReconnaissanceHtml, js/screens/home.js). Fond --sage (plutôt que --cream comme l'invitation
+   ci-dessus) pour une tonalité positive distincte, mais pas de bouton — jamais dismissible, il
+   disparaît naturellement de lui-même quand les entrées sortent de la fenêtre de 7 jours. Texte en
+   --ink sur --sage, déjà 9.67:1 (même paire que .option.chosen, cf. correctif de contraste v1.68). */
+.home-recognition {
+  background: var(--sage);
+  border-radius: 14px;
+  padding: 12px 14px;
+  margin-bottom: 14px;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--ink);
+  font-weight: 600;
+}
+
 /* ---------- lecture prioritaire du message vocal dans le bouton "Moment difficile" (v1.64) ---------- */
 .detresse-mv-card {
   background: var(--cream);
