@@ -116,9 +116,13 @@ h1.title, h3.title {
 .title.title-sm { font-size: 18px; margin: 0 0 6px; }
 .title.title-md { font-size: 19px; margin: 0 0 4px; }
 
-/* v1.67 : en-tête de l'accueil, titre + icône de recherche (point A8) sur la même ligne. */
+/* v1.67 : en-tête de l'accueil, titre + icône de recherche (point A8) sur la même ligne.
+   v1.75 : icône de réglages ajoutée à côté — .home-header-actions regroupe les deux boutons avec un
+   petit espacement entre eux, pour que space-between ne les écarte pas l'un de l'autre comme il le
+   ferait avec 3 enfants directs (titre, loupe, réglages) sur la même ligne. */
 .home-header-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
 .home-header-row .title { margin-bottom: 0; }
+.home-header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .icon-btn {
   background: var(--cream);
   border: 1px solid var(--card-border);
