@@ -335,6 +335,15 @@ a.link-row, .link-row {
 .home-link-discreet a { display: inline-block; padding: 10px 14px; color: var(--muted); font-size: 11.5px; text-decoration: none; }
 .home-link-discreet a:active { opacity: 0.6; }
 
+/* v1.72 : même traitement visuel que .home-link-discreet ci-dessus (texte atténué, pas de bouton
+   plein) mais classe distincte — celui-ci ne va jamais vers l'accueil, il ouvre la fiche du message
+   vocal. Utilisé uniquement sous "Continuer" sur l'écran "Ton message pour toi" (js/screens/detresse.js)
+   : reste secondaire, sous le bouton principal, pour ne jamais lui faire concurrence — cf. cahier des
+   charges v1.72 pour la discussion (charge attentionnelle sous anxiété, Eysenck & Derakshan). */
+.mv-rerecord-link { text-align: center; margin-top: 10px; }
+.mv-rerecord-link a { display: inline-block; padding: 8px 14px; color: var(--muted); font-size: 11.5px; text-decoration: none; line-height: 1.5; }
+.mv-rerecord-link a:active { opacity: 0.6; }
+
 /* ---------- home grid ---------- */
 .journal-pill {
   align-self: flex-end;
