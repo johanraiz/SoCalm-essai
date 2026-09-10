@@ -317,6 +317,13 @@ a.link-row, .link-row {
   min-height: 220px;
   cursor: pointer;
   user-select: none;
+  /* v1.77 : sans ceci, un vrai téléphone peut laisser le système (retour du navigateur au glisser
+     depuis le bord, notamment iOS Safari) intercepter le geste horizontal avant même que notre JS
+     ne le reçoive — le glisser semblait "ne rien faire" alors que le même geste, simulé, fonctionnait
+     très bien (cf. cahier des charges v1.77). "pan-y" indique explicitement qu'on gère nous-mêmes
+     l'horizontal, tout en laissant le défilement vertical natif pour les cases "planches" (tableau,
+     anecdote longue, cf. .case-panel-plain ci-dessous). */
+  touch-action: pan-y;
 }
 .case-panel.climax { min-height: 200px; }
 .case-num { position: absolute; bottom: 10px; right: 16px; font-family: Georgia, serif; font-size: 28px; font-weight: 700; opacity: 0.18; }
