@@ -778,7 +778,8 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 #onboardingScreen .gift-card .mantra { font-size: 19.5px; }
 #onboardingScreen .breath-label { font-size: 16.5px; }
 
-/* v1.67 : mention "SoCalm ne remplace pas une thérapie", en toute dernière chose avant d'entrer
+/* v1.67 : mention "ViaCalma ne remplace pas une thérapie" (texte mis à jour en v1.79, app renommée
+   depuis SoCalm), en toute dernière chose avant d'entrer
    dans l'appli (écran "depart" de l'onboarding). Encadré discret plutôt que texte nu, pour se
    distinguer visuellement du choix principal de l'écran (les trois options ci-dessus) sans pour
    autant avoir l'air d'un simple avertissement légal en petits caractères — cohérent avec la

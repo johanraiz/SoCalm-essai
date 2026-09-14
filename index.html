@@ -3,18 +3,41 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>SoCalm</title>
+<title>ViaCalma</title>
+<!-- PWA (v1.78) : manifeste + icônes pour l'installation sur l'écran d'accueil, couleur de thème
+     alignée sur --bg (claire) et sa variante sombre (deux balises theme-color avec `media`, prises
+     en charge par les navigateurs récents — pas besoin de JS pour basculer selon le mode du
+     téléphone). Cf. cahier des charges v1.78 : icônes encore en attente d'un visuel fourni par
+     Johan, manifest.json les référence déjà pour que rien ne soit à retoucher une fois reçues. -->
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#f5e8cd" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1a201c" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="ViaCalma">
 <!-- Polices (v1.65) : Fredoka pour les titres, Nunito Sans pour le corps de texte — remplacent la
      police système par défaut, jugée trop sérieuse par des retours utilisateurs. Cf. cahier des
      charges v1.65 pour la comparaison ayant mené à ce choix. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Nunito+Sans:wght@400;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/app.css?v=c7156ee3">
+<link rel="stylesheet" href="css/app.css?v=c12ee815">
 </head>
 <body>
 <div id="app"></div>
 <div id="toast" class="toast"></div>
-<script src="js/bundle.6374a3d0.js"></script>
+<script>
+  // Service worker (v1.78) : présent seulement dans dist/ (généré par build.py, cf. commentaire
+  // dédié dans ce fichier) — absent de app/ pendant le développement, pour ne jamais gêner
+  // l'itération rapide avec du contenu mis en cache. L'échec silencieux (.catch) est donc normal et
+  // attendu ici, pas une erreur : sw.js n'existe simplement pas dans ce dossier.
+  if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+      navigator.serviceWorker.register("sw.js").catch(() => {});
+    });
+  }
+</script>
+<script src="js/bundle.f63ae7fe.js"></script>
 </body>
 </html>
