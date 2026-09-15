@@ -647,7 +647,8 @@ a.link-row, .link-row {
    (retour utilisateur — le doigt posé puis déplacé pour suivre le point faisait bouger toute la
    page). Cette zone n'a pas besoin d'être scrollable, contrairement à `.case-panel` (module.js)
    qui garde son geste de glisser horizontal via `touch-action: pan-y`. */
-.curve-wrap { position: relative; width: 100%; height: 210px; overflow: hidden; border-radius: 16px; background: var(--sage-dark); margin: 6px 0 18px; touch-action: none; }
+.curve-wrap { position: relative; width: 100%; height: 210px; overflow: hidden; border-radius: 16px; background: var(--sage-dark); margin: 6px 0 18px; touch-action: none; cursor: grab; }
+.curve-wrap.dragging { cursor: grabbing; }
 .curve-track { position: absolute; top: 0; left: 0; height: 100%; display: flex; will-change: transform; }
 .curve-track svg { display: block; width: 256px; height: 210px; flex-shrink: 0; }
 /* v1.84 : repère vertical fixe, aligné sur le même `left` que `.curve-marker` (donc toujours
@@ -657,6 +658,14 @@ a.link-row, .link-row {
 /* v1.84 : halo agrandi (6px puis 13px, contre 5px avant) pour une cible visuelle et tactile plus
    généreuse — plus facile à garder sous le doigt en le suivant. */
 .curve-marker { position: absolute; left: 127px; top: 175px; width: 18px; height: 18px; margin-left: -9px; margin-top: -9px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 6px rgba(255,255,255,0.32), 0 0 0 13px rgba(255,255,255,0.14); will-change: top; }
+/* v1.85 : suivi tactile réel — pendant que le doigt est posé, le point suit sa position verticale
+   mais reste décalé au-dessus (cf. CURVE_TOUCH_LIFT dans outil-respiration.js), pour ne jamais être
+   caché par le doigt (retour utilisateur après v1.84 : la ligne/le halo seuls ne suffisaient pas,
+   le doigt posé exactement sur le point le cachait quand même). `.curve-stem` relie visuellement
+   le point (en haut) à la position réelle du doigt (en bas), pour que le lien entre les deux reste
+   lisible. */
+.curve-wrap.dragging .curve-marker { box-shadow: 0 0 0 6px rgba(255,255,255,0.42), 0 0 0 15px rgba(255,255,255,0.2); }
+.curve-stem { position: absolute; left: 127px; width: 2px; margin-left: -1px; background: repeating-linear-gradient(to bottom, rgba(255,255,255,0.55) 0 4px, transparent 4px 8px); pointer-events: none; }
 .phase-label { text-align: center; font-size: 14px; font-weight: 700; color: var(--sage-dark); margin-bottom: 14px; height: 20px; }
 
 .heart-wrap { display: flex; align-items: center; justify-content: center; margin: 10px 0 20px; }
