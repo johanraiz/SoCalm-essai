@@ -643,10 +643,20 @@ a.link-row, .link-row {
 .ma-version { margin-top: 16px; display: flex; align-items: center; gap: 8px; font-size: 11.5px; color: var(--muted); border-top: 1px solid var(--card-border); padding-top: 14px; background: none; border-left: none; border-right: none; border-bottom: none; cursor: pointer; font-family: inherit; width: 100%; text-align: left; }
 .ma-version .ic { width: 24px; height: 24px; border-radius: 8px; background: var(--cream); border: 1px solid var(--card-border); display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0; }
 
-.curve-wrap { position: relative; width: 100%; height: 210px; overflow: hidden; border-radius: 16px; background: var(--sage-dark); margin: 6px 0 18px; }
+/* v1.84 : touch-action: none pour empêcher le geste de suivi au doigt de faire défiler l'écran
+   (retour utilisateur — le doigt posé puis déplacé pour suivre le point faisait bouger toute la
+   page). Cette zone n'a pas besoin d'être scrollable, contrairement à `.case-panel` (module.js)
+   qui garde son geste de glisser horizontal via `touch-action: pan-y`. */
+.curve-wrap { position: relative; width: 100%; height: 210px; overflow: hidden; border-radius: 16px; background: var(--sage-dark); margin: 6px 0 18px; touch-action: none; }
 .curve-track { position: absolute; top: 0; left: 0; height: 100%; display: flex; will-change: transform; }
 .curve-track svg { display: block; width: 256px; height: 210px; flex-shrink: 0; }
-.curve-marker { position: absolute; left: 127px; top: 175px; width: 15px; height: 15px; margin-left: -7.5px; margin-top: -7.5px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 5px rgba(255,255,255,0.3); will-change: top; }
+/* v1.84 : repère vertical fixe, aligné sur le même `left` que `.curve-marker` (donc toujours
+   exactement sous/sur le point, quelle que soit la largeur réelle de l'écran) — aide à repérer le
+   point du regard ou du doigt sans avoir à suivre sa position horizontale (qui ne bouge pas). */
+.curve-guide { position: absolute; left: 127px; top: 0; bottom: 0; width: 2px; margin-left: -1px; background: rgba(255,255,255,0.38); pointer-events: none; }
+/* v1.84 : halo agrandi (6px puis 13px, contre 5px avant) pour une cible visuelle et tactile plus
+   généreuse — plus facile à garder sous le doigt en le suivant. */
+.curve-marker { position: absolute; left: 127px; top: 175px; width: 18px; height: 18px; margin-left: -9px; margin-top: -9px; border-radius: 50%; background: #fff; box-shadow: 0 0 0 6px rgba(255,255,255,0.32), 0 0 0 13px rgba(255,255,255,0.14); will-change: top; }
 .phase-label { text-align: center; font-size: 14px; font-weight: 700; color: var(--sage-dark); margin-bottom: 14px; height: 20px; }
 
 .heart-wrap { display: flex; align-items: center; justify-content: center; margin: 10px 0 20px; }
