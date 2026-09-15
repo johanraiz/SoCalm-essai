@@ -605,9 +605,9 @@ a.link-row, .link-row {
 .emergency-strip .txt b { color: var(--ink); }
 
 .detresse-card { background: var(--sage); border-radius: 16px; padding: 14px; margin-top: 8px; cursor: pointer; }
-.detresse-card .lbl { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #557052; margin-bottom: 6px; }
+.detresse-card .lbl { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #41563f; margin-bottom: 6px; } /* #557052 → #41563f, contraste corrigé v1.82 (3.23:1 → 4.71:1 sur --sage ; même correction déjà faite pour .link-row en v1.66 et .plan-field en v1.71) */
 .detresse-card .t { font-family: Georgia, serif; font-size: 15px; font-weight: 700; color: #3f4f39; margin-bottom: 4px; }
-.detresse-card .d { font-size: 11px; color: #557052; line-height: 1.5; }
+.detresse-card .d { font-size: 11px; color: #41563f; line-height: 1.5; } /* #557052 → #41563f, contraste corrigé v1.82 */
 
 .tap-hint { font-size: 11px; color: var(--muted); font-style: italic; text-align: center; margin-top: 12px; cursor: pointer; }
 
@@ -725,7 +725,7 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 .sense-step .txt .d { font-size: 10.5px; color: var(--muted); margin-top: 1px; line-height: 1.4; }
 /* ---------- outil "Je marche, je me libère" (v1.30) — encart anecdote, cf. design/ecrans-outils-je-mancre.html ---------- */
 .anecdote { background: var(--sage); border-radius: 14px; padding: 12px 14px; margin-top: 10px; font-size: 14.5px; line-height: 1.6; color: #3f4f39; } /* 11.5px → 14.5px, v1.65 */
-.anecdote .lbl { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #557052; margin-bottom: 5px; }
+.anecdote .lbl { font-size: 9.5px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; color: #41563f; margin-bottom: 5px; } /* #557052 → #41563f, contraste corrigé v1.82 (3.23:1 → 4.71:1 sur --sage ; même correction déjà faite pour .link-row en v1.66 et .plan-field en v1.71) */
 .anecdote p { margin: 0 0 6px; }
 .anecdote p:last-child { margin-bottom: 0; }
 .body-copy blockquote.marche-phrase { font-family: Georgia, serif; font-style: italic; color: var(--sage-dark); border-left-color: var(--sage); }
@@ -841,6 +841,14 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 .outcome-badge.avoid { background: var(--card-border); color: var(--muted); }
 /* v1.45 : question de réflexion de la vérification des attentes, même traitement que .ecriture-closing. */
 .reflection-note { font-size: 11px; font-style: italic; color: var(--sage-dark); text-align: center; margin: 10px 0 4px; line-height: 1.5; }
+
+/* Page "Les fondements de ViaCalma" (v1.82), niveau 3 : liste complète des références, une ligne par
+   auteur (nom en --ink, concept associé en --muted juste en dessous) — pas de tableau ni de colonnes,
+   pour rester lisible en une seule colonne à toutes les largeurs d'écran. */
+.fondements-ref-list { display: flex; flex-direction: column; gap: 10px; margin-top: 4px; }
+.fondements-ref { border-bottom: 1px solid var(--card-border); padding-bottom: 8px; }
+.fondements-ref-name { display: block; font-size: 13px; font-weight: 700; color: var(--ink); }
+.fondements-ref-concept { display: block; font-size: 12px; color: var(--muted); line-height: 1.4; margin-top: 1px; }
 
 /* ---------- note / status ---------- */
 .note {
