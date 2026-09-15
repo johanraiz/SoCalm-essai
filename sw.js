@@ -1,5 +1,5 @@
 // Généré par build.py — ne pas éditer à la main (cf. commentaire dans build.py, v1.78).
-const CACHE_NAME = "socalm-db4d914d8ca8";
+const CACHE_NAME = "socalm-0f21eea9d8d5";
 const PRECACHE_URLS = [
   "./assets/icon-180.png",
   "./assets/icon-192.png",

@@ -1,7 +1,7 @@
 {
   "name": "ViaCalma",
   "short_name": "ViaCalma",
-  "description": "Comprendre son anxiété et retrouver le calme, à son rythme.",
+  "description": "Comprendre les mécanismes de l'anxiété et retrouver son calme, pas à pas.",
   "lang": "fr",
   "start_url": "./index.html",
   "scope": "./",
