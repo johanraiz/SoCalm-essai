@@ -836,6 +836,22 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
 .scale-row-10 { gap: 3px; }
 .scale-row-10 .scale-dot { height: 26px; font-size: 9px; padding: 0; }
 .empty-state { font-size: 12px; color: var(--muted); font-style: italic; text-align: center; padding: 24px 10px; }
+
+/* v1.86 : outil "J'avance, une marche à la fois" (échelle d'exposition) — liste de situations
+   évitées, classées par difficulté. `.exposition-diff` réutilise --sage/--ink (déjà 9.67:1, cf.
+   .option.chosen) plutôt qu'une nouvelle couleur.
+   v1.87 : fusion avec le système de prédictions — plus de case à cocher ni de suppression propres à
+   cet écran (`.exposition-check`/`.exposition-del`/`.done`, v1.86, retirées) ; le statut vérifié/à
+   vérifier et son bouton réutilisent .outcome-badge / .plan-toggle-btn déjà stylés pour le Journal
+   (cf. "La vérification des attentes"), pour une seule apparence cohérente entre les deux écrans.
+   v1.88 : plus d'état final "vérifiée" (une situation peut être re-vérifiée indéfiniment) — le
+   modificateur `.exposition-row.verified` qui grisait le texte une fois pour toutes est retiré ; le
+   texte reste dans sa couleur normale quel que soit le nombre de tentatives déjà faites. */
+.exposition-list { margin-top: 14px; }
+.exposition-row { display: flex; align-items: center; gap: 10px; background: var(--cream); border: 1px solid var(--card-border); border-radius: 14px; padding: 10px 12px; margin-bottom: 8px; }
+.exposition-diff { flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%; background: var(--sage); color: var(--ink); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; }
+.exposition-txt { flex: 1; font-size: 12px; color: var(--ink); line-height: 1.4; }
+.exposition-verify-btn { flex-shrink: 0; padding: 7px 13px; background: transparent; border: 1px solid var(--sage-dark); color: var(--sage-dark); border-radius: 999px; font-size: 11px; font-weight: 700; cursor: pointer; }
 .plan-block { background: var(--sage); border-radius: 16px; padding: 14px; margin-top: 14px; }
 .plan-block .h { font-size: 11.5px; font-weight: 700; color: #3f4f39; margin-bottom: 8px; line-height: 1.4; }
 .plan-field { background: rgba(255,255,255,0.55); border-radius: 10px; padding: 8px 10px; font-size: 11px; color: #41563f; margin-bottom: 6px; } /* #557052 → #41563f, contraste corrigé v1.71 (même correction déjà faite pour .link-row en v1.66) */
@@ -1224,10 +1240,18 @@ input.word-chip.custom { background: transparent; border-style: dashed; border-c
   .detresse-mv-card .lbl,
   .body-copy blockquote.marche-phrase,
   .option .ic,
-  .plan-toggle-btn {
+  .plan-toggle-btn,
+  .exposition-verify-btn {
     color: var(--dark-text-sage);
   }
   .plan-toggle-btn { border-color: var(--dark-text-sage); }
+  .exposition-verify-btn { border-color: var(--dark-text-sage); }
+  /* v1.88 : bouton "Plus tard" (skip de la ré-anticipation) — même souci de contraste que
+     .plan-toggle-btn/.exposition-verify-btn ci-dessus : .btn-secondary utilise --muted, un jeton qui
+     bascule pour un fond --cream/--bg assombri, mais ce bouton-ci est posé sur .plan-block
+     (--sage, figé, non assombri) où --muted sombre devient illisible. */
+  .plan-block .btn-secondary { color: var(--dark-text-sage); }
+  .plan-block .btn-secondary:hover { color: var(--dark-text-ink-frozen); }
 
   /* Exceptions : ces deux-là passent parfois sur un fond --sage non assombri (case
      "choisie"/"a un plan") — on y garde alors la couleur d'origine, identique au mode clair
